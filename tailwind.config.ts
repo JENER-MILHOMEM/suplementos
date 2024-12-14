@@ -11,8 +11,9 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        primary: "#00CBE8"
       },
     },
-  },
+  },  
   plugins: [],
 } satisfies Config;
