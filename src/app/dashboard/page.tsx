@@ -6,6 +6,7 @@ import Header from "@/app/components/header";
 import StoreInfo from "@/app/components/storeInfo";
 import Categories from "@/app/components/categories/index"
 import Products from "@/app/components/Products/index"
+import FooterBar from "@/app/components/footer/index";
 
 export default function Home() {
     return (
@@ -59,7 +60,10 @@ export default function Home() {
                 <Products/>
             </div>
             <div>
-            <Products/>
+                <Products/>
+            </div>
+            <div>
+                <FooterBar/>
             </div>
         </div>
     )
