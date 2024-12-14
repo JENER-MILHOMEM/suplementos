@@ -16,7 +16,7 @@ export function CategorySlider({ categoriaAtiva }: { categoriaAtiva: string }) {
   };
 
   return (
-    <div className="flex space-x-8 overflow-x-auto pb-4 mb-6">
+    <div className="flex space-x-8 overflow-x-auto pb-4 mb-6 w-full">
       {categorias.map((categoria) => (
         <button
           key={categoria.slug}

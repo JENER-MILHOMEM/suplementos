@@ -2,14 +2,15 @@
 
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { produtos, Produto } from '../data/produtos';
+import { produtos } from '../data/produtos';
 import { CategorySlider } from './category-slider';
 import { ProductCard } from './product-card';
-
+import { Product } from '@/types/products.type';
 
 export function ProductsContent() {
+
   const searchParams = useSearchParams();
-  const [produtosFiltrados, setProdutosFiltrados] = useState<Produto[]>(produtos);
+  const [produtosFiltrados, setProdutosFiltrados] = useState<Product[]>(produtos);
   const [categoriaAtiva, setCategoriaAtiva] = useState('');
 
   useEffect(() => {
@@ -17,7 +18,7 @@ export function ProductsContent() {
     setCategoriaAtiva(categoria || '');
 
     if (categoria) {
-      setProdutosFiltrados(produtos.filter((produto) => produto.categoria === categoria));
+      setProdutosFiltrados(produtos.filter((produto) => produto.category === categoria));
     } else {
       setProdutosFiltrados(produtos);
     }
