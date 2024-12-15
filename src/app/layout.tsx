@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/navbar";
 import { Poppins } from "next/font/google";
+import { Toaster } from "react-hot-toast";
 
 const font = Poppins({
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
@@ -35,6 +36,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-100 ${font.className} mb-10`}
       >
         <Navbar/>
+        <Toaster/>
         {children}
       </body>
     </html>

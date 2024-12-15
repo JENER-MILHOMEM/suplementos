@@ -1,8 +1,15 @@
 export type Product = {
-    id: string
+    id?: string
     name: string
+    category: Category
     shortDescription: string
+    description: string
     price: number
     imgUrl: string
-    promotion?: number
+    discountPrice?: number
+}
+
+export type Category = {
+    id?: string
+    name: string
 }

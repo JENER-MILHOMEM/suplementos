@@ -1,65 +1,71 @@
-export interface Produto {
-    id: string;
-    nome: string;
-    descricao: string;
-    preco: number;
-    precoDesconto?: number;
-    categoria: 'proteina' | 'creatina' | 'termogenico';
-    imagem: string;
-  }
-  
-  export const produtos: Produto[] = [
-    {
-      id: '1',
-      nome: 'Whey Protein Isolado',
-      descricao: 'Proteína de alta qualidade para crescimento muscular',
-      preco: 159.99,
-      precoDesconto: 139.99,
-      categoria: 'proteina',
-      imagem: 'https://cdn.awsli.com.br/600x700/488/488434/produto/42764883/8c7fc1a374.jpg',
-    },
-    {
-      id: '2',
-      nome: 'Creatina Monohidratada',
-      descricao: 'Aumente força e desempenho muscular',
-      preco: 89.99,
-      categoria: 'creatina',
-      imagem: 'https://cdn.awsli.com.br/600x700/488/488434/produto/42764883/8c7fc1a374.jpg',
-    },
-    {
-      id: '3',
-      nome: 'Termogênico Fat Burner',
-      descricao: 'Melhore o metabolismo e a queima de gordura',
-      preco: 99.99,
-      precoDesconto: 89.99,
-      categoria: 'termogenico',
-      imagem: 'https://cdn.awsli.com.br/600x700/488/488434/produto/42764883/8c7fc1a374.jpg',
-    },
-    {
-      id: '4',
-      nome: 'Proteína Caseína',
-      descricao: 'Proteína de liberação lenta para recuperação noturna',
-      preco: 149.99,
-      categoria: 'proteina',
-      imagem: 'https://cdn.awsli.com.br/600x700/488/488434/produto/42764883/8c7fc1a374.jpg',
-    },
-    {
-      id: '5',
-      nome: 'Creatina HCL',
-      descricao: 'Creatina avançada para melhor absorção',
-      preco: 109.99,
-      precoDesconto: 99.99,
-      categoria: 'creatina',
-      imagem: 'https://cdn.awsli.com.br/600x700/488/488434/produto/42764883/8c7fc1a374.jpg',
-    },
-    {
-      id: '6',
-      nome: 'Termogênico Natural',
-      descricao: 'Acelerador de metabolismo à base de plantas',
-      preco: 119.99,
-      categoria: 'termogenico',
-      imagem: 'https://cdn.awsli.com.br/600x700/488/488434/produto/42764883/8c7fc1a374.jpg',
-    },
-  ];
-  
-  
+import { Product } from "@/types/products.type";
+
+export const produtos: Product[] = [
+  {
+    id: "1",
+    name: "Creatina Monohidratada",
+    category: "creatina",
+    shortDescription: "Aumenta a força e melhora a performance física.",
+    description: "Creatina monohidratada pura, ideal para atletas que buscam aumentar sua força e resistência.",
+    price: 89.99,
+    discountPrice: 79.99,
+    imgUrl: "https://cdn.awsli.com.br/600x700/488/488434/produto/42764883/8c7fc1a374.jpg",
+  },
+  {
+    id: "2",
+    name: "Termogênico Ultra Burn",
+    category: "termogenico",
+    shortDescription: "Auxilia na queima de gordura e aumento de energia.",
+    description: "Fórmula avançada para potencializar o metabolismo e promover a perda de peso de forma eficaz.",
+    price: 129.99,
+    imgUrl: "https://cdn.awsli.com.br/600x700/488/488434/produto/42764883/8c7fc1a374.jpg",
+  },
+  {
+    id: "3",
+    name: "Whey Protein Concentrado",
+    category: "proteina",
+    shortDescription: "Proteína de alta qualidade para construção muscular.",
+    description: "Suplemento proteico de alta absorção, ideal para recuperação e crescimento muscular.",
+    price: 149.99,
+    discountPrice: 139.99,
+    imgUrl: "https://cdn.awsli.com.br/600x700/488/488434/produto/42764883/8c7fc1a374.jpg",
+  },
+  {
+    id: "4",
+    name: "Whey Protein Isolado",
+    category: "proteina",
+    shortDescription: "Proteína isolada para máxima pureza.",
+    description: "Whey protein isolado com alto teor proteico, sem adição de lactose e gordura.",
+    price: 189.99,
+    discountPrice: 169.99,
+    imgUrl: "https://cdn.awsli.com.br/600x700/488/488434/produto/42764883/8c7fc1a374.jpg",
+  },
+  {
+    id: "5",
+    name: "Creatina Hardcore",
+    category: "creatina",
+    shortDescription: "Maior desempenho em treinos intensos.",
+    description: "Creatina avançada para maximizar sua força e explosão muscular.",
+    price: 99.99,
+    imgUrl: "https://cdn.awsli.com.br/600x700/488/488434/produto/42764883/8c7fc1a374.jpg",
+  },
+  {
+    id: "6",
+    name: "Termogênico Extreme",
+    category: "termogenico",
+    shortDescription: "Queime gordura e mantenha sua energia elevada.",
+    description: "Termogênico ideal para quem busca definição muscular e mais disposição no dia a dia.",
+    price: 119.99,
+    discountPrice: 109.99,
+    imgUrl: "https://cdn.awsli.com.br/600x700/488/488434/produto/42764883/8c7fc1a374.jpg",
+  },
+  {
+    id: "7",
+    name: "Proteína Vegana",
+    category: "proteina",
+    shortDescription: "Opção proteica à base de vegetais.",
+    description: "Proteína vegetal para atletas veganos ou intolerantes à lactose.",
+    price: 139.99,
+    imgUrl: "https://cdn.awsli.com.br/600x700/488/488434/produto/42764883/8c7fc1a374.jpg",
+  },
+]

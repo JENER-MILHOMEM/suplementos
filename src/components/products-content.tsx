@@ -1,37 +1,41 @@
 'use client'
 
-import { useState, useEffect } from 'react';
+import { Product } from '@/types/products.type';
 import { useSearchParams } from 'next/navigation';
-import { produtos, Produto } from '../data/produtos';
+import { useEffect, useState } from 'react';
 import { CategorySlider } from './category-slider';
 import { ProductCard } from './product-card';
 
+type ProductsContentProps = {
+  products: Product[]
+}
 
-export function ProductsContent() {
+export function ProductsContent({products} : ProductsContentProps) {
+
   const searchParams = useSearchParams();
-  const [produtosFiltrados, setProdutosFiltrados] = useState<Produto[]>(produtos);
-  const [categoriaAtiva, setCategoriaAtiva] = useState('');
+  const [produtosFiltrados, setProdutosFiltrados] = useState<Product[]>(products);
+  const [categoriaAtiva, setCategoriaAtiva] = useState<string | null>('');
 
   useEffect(() => {
     const categoria = searchParams.get('categoria');
-    setCategoriaAtiva(categoria || '');
+    setCategoriaAtiva(categoria);
 
     if (categoria) {
-      setProdutosFiltrados(produtos.filter((produto) => produto.categoria === categoria));
+      setProdutosFiltrados(products.filter((product) => product.category.name === categoria));
     } else {
-      setProdutosFiltrados(produtos);
+      setProdutosFiltrados(products);
     }
   }, [searchParams]);
 
   return (
-    <>
-      <CategorySlider categoriaAtiva={categoriaAtiva} />
+    <div className='w-full'>
+      <CategorySlider categoriaAtiva={categoriaAtiva || 'Todos'} />
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {produtosFiltrados.map((produto) => (
-          <ProductCard key={produto.id} produto={produto} />
+        {produtosFiltrados.map((product) => (
+          <ProductCard key={product.id} produto={product} />
         ))}
       </div>
-    </>
+    </div>
   );
 }
 
