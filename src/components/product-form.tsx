@@ -31,7 +31,15 @@ export const ProductForm = ({ categories }: CategoryProps) => {
   })
 
   const onSubmit = async (data: ProductFormData) => {
-    const { message, status } = await createProduct(data)
+
+    const category = categories.find((category) => category.id === data.category) || categories[0]
+
+    const productData = {
+      ...data,
+      category,
+    };
+
+    const { message, status } = await createProduct(productData)
 
     if (status == 'ok') toast.success(message)
     if (status == 'error') toast.error(message)

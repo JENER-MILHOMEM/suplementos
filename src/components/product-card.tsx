@@ -1,6 +1,6 @@
-import Image from 'next/image';
-import { Button } from './button';
 import { Product } from '@/types/products.type';
+import { Button } from './button';
+import Image from 'next/image';
 
 export function ProductCard({ produto }: { produto: Product }) {
     return (
@@ -21,15 +21,15 @@ export function ProductCard({ produto }: { produto: Product }) {
                         <div>
                             {produto.discountPrice ? (
                                 <div className="flex flex-col">
-                                    <span className="text-sm text-gray-500 line-through">R$ {produto.price.toFixed(2)}</span>
-                                    <span className="text-lg font-bold text-green-600">R$ {produto.discountPrice.toFixed(2)}</span>
+                                    <span className="text-sm text-gray-500 line-through">R$ {produto.price}</span>
+                                    <span className="text-lg font-bold text-green-600">R$ {produto.discountPrice}</span>
                                 </div>
                             ) : (
-                                <span className="text-lg font-bold">R$ {produto.price.toFixed(2)}</span>
+                                <span className="text-lg font-bold">R$ {produto.price}</span>
                             )}
                         </div>
                         <span className="text-sm font-medium text-blue-600 bg-blue-100 px-2 py-1 rounded">
-                            {produto.category}
+                            {produto.category.name}
                         </span>
                     </div>
                     <Button className='mt-2'>Adicionar ao carrinho</Button>

@@ -3,11 +3,11 @@ import { db } from "../firebase"
 import { MutationRes } from "@/types/mutations-response.type"
 import { Product } from "@/types/products.type"
 
-export const createProduct = async (payload : Product) : Promise<MutationRes> => {
+export const createProduct = async ({category, description, imgUrl, name, price, shortDescription, discountPrice} : Product) : Promise<MutationRes> => {
     try {
 
         await addDoc(collection(db, 'products'), {
-            payload
+            category, description, imgUrl, name, price, shortDescription, discountPrice
         })
 
         return {message: "Produto criado com sucesso!", status: 'ok'}
