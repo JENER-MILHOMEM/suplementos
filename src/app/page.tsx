@@ -1,7 +1,7 @@
 import { ProductsContent } from "@/components/products-content";
 import { StoreBanner } from "@/components/store-banner";
 import { RestaurantProps, StoreInfos } from "@/components/store-infos";
-import { getAllDocs } from "@/firebase/queries/getAllDocs";
+import { getAllDocs } from "@/firebase/queries/get-all-docs";
 import { Product } from "@/types/products.type";
 
 export default async function Home() {

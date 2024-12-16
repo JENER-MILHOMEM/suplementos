@@ -2,7 +2,7 @@
 import { useEffect, ReactNode } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRouter } from "next/navigation";
-import { auth } from "@/app/firebase/firebase";
+import {auth} from '@/firebase/firebase'
 
 interface ProtectedRouteProps {
     children: ReactNode;

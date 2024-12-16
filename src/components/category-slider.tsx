@@ -1,6 +1,6 @@
 "use client"
 
-import { getAllDocs } from '@/firebase/queries/getAllDocs';
+import { getAllDocs } from '@/firebase/queries/get-all-docs';
 import { Category } from '@/types/products.type';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';

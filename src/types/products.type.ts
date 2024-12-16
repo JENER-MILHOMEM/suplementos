@@ -7,6 +7,7 @@ export type Product = {
     price: number
     imgUrl: string
     discountPrice?: number
+    quantity: number
 }
 
 export type Category = {
