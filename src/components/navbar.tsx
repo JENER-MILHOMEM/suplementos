@@ -1,9 +1,9 @@
 "use client"
 
 import { House, Scroll, ShoppingCart } from 'lucide-react'
+import { usePathname, useRouter } from 'next/navigation'
 import { ReactNode } from 'react'
-import { Input } from './input'
-import { useSearchParams, useRouter, usePathname } from 'next/navigation'
+import { Input } from './ui/input'
 
 type NavbarPages = {
     name: string,
@@ -41,7 +41,7 @@ export const Navbar = () => {
                 <img onClick={()=> route.push('/')} src="/logo_square.png" alt="logo eri suplementos" className='size-[70px] cursor-pointer' />
 
                 <div className='w-[400px]'>
-                    <Input type={'text'} placeholder='Buscar no catálogo' />
+                    <Input placeholder='Procure um produto' />
                 </div>
             </div>
 
