@@ -17,7 +17,7 @@ type FormSliderProps = {
 
 export function FormSlider({categories} : FormSliderProps) {
 
-  const [activeForm, setActiveForm] = useState('category')
+  const [activeForm, setActiveForm] = useState(formOptions[0].slug)
 
   const handleFormClick = (slug: string) => {
     setActiveForm(slug)

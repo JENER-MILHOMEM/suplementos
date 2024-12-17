@@ -1,15 +1,9 @@
 import { Product } from '@/types/products.type';
 import Image from 'next/image';
 
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger
-} from "@/components/ui/dialog";
 import { Button } from './button';
+import useCartStore from '@/store/cart';
+import toast from 'react-hot-toast';
 
 interface ProductCardProps {
     produto: Product;
@@ -17,9 +11,17 @@ interface ProductCardProps {
 
 export function ProductCard({ produto }: ProductCardProps) {
 
+    const {addItem} = useCartStore()
+
+    const addToCart = () => {
+        produto.quantity = 1
+        addItem(produto)
+        toast.success("Produto adicionado com sucesso!")
+    }
+
 
     return (
-        <div className='flex flex-col bg-white rounded-lg cursor-pointer shadow-md'>
+        <div className='flex flex-col bg-white rounded-lg shadow-md border'>
             <Image
                 src={produto.imgUrl}
                 alt={produto.name}
@@ -48,7 +50,7 @@ export function ProductCard({ produto }: ProductCardProps) {
                         </span>
                     </div>
                 </div>
-                <Button className='mt-2'>Adicionar ao Carrinho</Button>
+                <Button onClick={addToCart} className='mt-2'>Adicionar ao Carrinho</Button>
             </div>
         </div>
 

@@ -9,7 +9,7 @@ export default async function Home() {
   const store: RestaurantProps = {
     name: "ERI SUPLEMENTOS",
     address: "Avenida Não sei oq",
-    imageUrl: '/logo_square.png',
+    imageUrl: '/logo_vetor.svg',
     isClosed: true,
     openingTime: "18:00",
     deliveryOptions: ["Entrega", "Retirada"]

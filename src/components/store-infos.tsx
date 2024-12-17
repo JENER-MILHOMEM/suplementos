@@ -15,12 +15,12 @@ export const StoreInfos = ({storeInfos} : {storeInfos: RestaurantProps}) => {
     const {name, address, deliveryOptions, isClosed, openingTime, imageUrl} = storeInfos
 
     return (
-        <div className="w-full bg-white shadow-lg rounded-lg overflow-hidden mx-auto flex gap-5 items-center px-20">
+        <div className="w-full bg-white shadow-lg rounded-lg overflow-hidden mx-auto flex gap-5 items-center px-20 border">
 
-            <img src={imageUrl} alt="logo eri suplementos" className='h-[150px] rounded-full' />
+            <img src={imageUrl} alt="logo eri suplementos" className='h-[150px]' />
 
             <div className="p-6">
-                <h2 className="text-xl font-bold mb-2">{name}</h2>
+                <h2 className="text-xl font-bold mb-2 tracking-wider">{name}</h2>
                 <div className="flex items-start mb-2">
                     <MapPin className="w-5 h-5 text-gray-500 mr-2 flex-shrink-0 mt-1" />
                     <p className="text-gray-600">{address}</p>

@@ -1,13 +1,9 @@
-import { MutationRes } from "@/types/mutations-response.type";
-import { auth } from "../firebase.admin";
 import { api } from "@/axios/axios.config";
+import { CreateUserType } from "@/schemas/create-user-admin.schema";
+import { MutationRes } from "@/types/mutations-response.type";
 
-export type CreateAdminUser = {
-  email: string
-  password: string
-}
 
-export const createAdminUser = async ({ email, password }: CreateAdminUser): Promise<MutationRes> => {
+export const createAdminUser = async ({ email, password }: CreateUserType): Promise<MutationRes> => {
   try {
 
     await api.post('/api/create/admin', {
