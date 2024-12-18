@@ -22,7 +22,7 @@ export const CreateUser = () => {
   }
 
   return (
-    <form className="max-w-md mx-auto mt-8" onSubmit={handleSubmit(onSubmit)}>
+    <form className="max-w-md mx-auto space-y-3" onSubmit={handleSubmit(onSubmit)}>
       <Input type="email" {...register('email')} label="Email" error={errors.email?.message}/>
       <Input type="password" {...register('password')} label="Senha" error={errors.password?.message}/>
       <Button type="submit">Criar usuário</Button>

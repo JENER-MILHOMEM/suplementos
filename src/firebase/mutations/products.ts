@@ -14,6 +14,7 @@ export const createProduct = async ({category, description, imgUrl, name, price,
         return {message: "Produto criado com sucesso!", status: 'ok'}
 
     } catch (error) {
+        console.log(error);
         return {message: "Não foi possivel criar o produto", status: 'error', error}
     }
 

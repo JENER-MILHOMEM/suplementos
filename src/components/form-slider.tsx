@@ -6,9 +6,9 @@ import { Category } from '@/types/products.type'
 import { CreateUser } from './create-user-form'
 
 const formOptions = [
-  { name: 'Criar categoria', slug: 'category' },
-  { name: 'Criar produto', slug: 'product' },
-  { name: 'Criar usuário (admin)', slug: 'user' },
+  { name: 'Categoria', slug: 'category' },
+  { name: 'Produto', slug: 'product' },
+  { name: 'Usuário (admin)', slug: 'user' },
 ]
 
 type FormSliderProps = {

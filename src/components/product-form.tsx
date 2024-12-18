@@ -4,7 +4,7 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Input } from './input-form'
-import {Category, Product} from '@/types/products.type'
+import { Category, Product } from '@/types/products.type'
 import { TextArea } from './text-area'
 import { createProduct, updateProduct } from '@/firebase/mutations/products'
 import toast from 'react-hot-toast'
@@ -22,31 +22,31 @@ const productSchema = z.object({
 
 type ProductFormData = z.infer<typeof productSchema>
 type ProductProps = {
-    categories: Category[],
-    product?: Product,
+  categories: Category[],
+  product?: Product,
 
 }
 
 export const ProductForm = ({ categories, product }: ProductProps) => {
 
   const { register, handleSubmit, formState: { errors } } = useForm<ProductFormData>({
-        resolver: zodResolver(productSchema),
-        defaultValues: product ? {
-            name: product.name,
-            category: product.category.id,
-            shortDescription: product.shortDescription,
-            description: product.description,
-            price: product.price,
-            imgUrl: product.imgUrl,
-            discountPrice: product.discountPrice,
-            quantity: product.quantity
-        } : {
-            name: "",
-            category: "",
-            shortDescription: "",
-            description: "",
-            imgUrl: "",
-        }
+    resolver: zodResolver(productSchema),
+    defaultValues: product ? {
+      name: product.name,
+      category: product.category.id,
+      shortDescription: product.shortDescription,
+      description: product.description,
+      price: product.price,
+      imgUrl: product.imgUrl,
+      discountPrice: product.discountPrice,
+      quantity: product.quantity
+    } : {
+      name: "",
+      category: "",
+      shortDescription: "",
+      description: "",
+      imgUrl: "",
+    }
   })
 
   const onSubmit = async (data: ProductFormData) => {
@@ -58,20 +58,20 @@ export const ProductForm = ({ categories, product }: ProductProps) => {
       category,
     };
 
-    const response  =  product && product.id ? await updateProduct(product.id, productData) : await createProduct(productData)
+    const response = product && product.id ? await updateProduct(product.id, productData) : await createProduct(productData)
 
     if (response.status == 'ok') toast.success(response.message)
     if (response.status == 'error') toast.error(response.message)
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="max-w-md mx-auto mt-8">
+    <form onSubmit={handleSubmit(onSubmit)} className="max-w-md mx-auto space-y-3">
       <Input
         label="Nome do Produto"
         {...register('name')}
         error={errors.name?.message}
       />
-      <div className="mb-4">
+      <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">Categoria</label>
         <select
           {...register('category')}
@@ -125,9 +125,9 @@ export const ProductForm = ({ categories, product }: ProductProps) => {
         type="submit"
         className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
       >
-          {product ? "Atualizar Produto" :
-            "Adicionar Produto"
-          }
+        {product ? "Atualizar Produto" :
+          "Adicionar Produto"
+        }
       </button>
     </form>
 

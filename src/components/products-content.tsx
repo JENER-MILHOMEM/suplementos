@@ -29,10 +29,11 @@ export function ProductsContent({products} : ProductsContentProps) {
 
   return (
     <div className='w-full'>
+      <p className='font-medium text-lg md:text-2xl border-b pb-1 mb-1'>Categorias</p>
       <CategorySlider categoriaAtiva={categoriaAtiva || 'Todos'} />
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
         {produtosFiltrados.map((product) => (
-          <ProductCard key={product.id} produto={product} />
+          <ProductCard key={product.id} product={product} />
         ))}
       </div>
     </div>

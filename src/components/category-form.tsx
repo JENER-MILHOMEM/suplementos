@@ -29,7 +29,7 @@ export const CategoryForm = () => {
     }
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="max-w-md mx-auto mt-8">
+        <form onSubmit={handleSubmit(onSubmit)} className="max-w-md mx-auto space-y-3">
             <Input
                 label="Nome da categoria de produto"
                 {...register('name')}

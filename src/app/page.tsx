@@ -16,12 +16,12 @@ export default async function Home() {
   };
 
   const products = await getAllDocs('products')
-  
+
   return (
-    <div className="mx-5 md:mx-20 flex flex-col justify-center items-center">
+    <div className="flex flex-col justify-center items-center">
       <StoreBanner />
       <StoreInfos storeInfos={store} />
-      <div className="mt-20 w-full">
+      <div className="mt-5 md:mt-12 w-full">
         <ProductsContent products={products as Product[]} />
       </div>
     </div>

@@ -24,7 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={` antialiased ${font.className} py-5 ${isMobile ? 'mb-[90px]' : 'mt-[60px]'}`}
+        className={` antialiased ${font.className} py-5 mx-5 md:mx-20 ${isMobile ? 'mb-[90px]' : 'mt-[60px]'}`}
       >
         <Navbar/>
         <Toaster/>
