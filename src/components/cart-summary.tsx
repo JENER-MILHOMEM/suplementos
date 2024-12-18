@@ -11,7 +11,7 @@ export function CartSummary({ totalItems, totalPrice, onClearCart }: CartSummary
   return (
     <div className="mt-4 space-y-2">
       <div className="flex justify-between text-sm">
-        <span>Total Items:</span>
+        <span>Total de itens:</span>
         <span>{totalItems}</span>
       </div>
       <div className="flex justify-between font-semibold">

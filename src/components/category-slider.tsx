@@ -24,7 +24,7 @@ export function CategorySlider({ categoriaAtiva }: { categoriaAtiva: string }) {
   };
 
   return (
-    <div className="flex space-x-8 overflow-x-auto pb-4 mb-6">
+    <div className="flex space-x-3 md:space-x-8 overflow-x-auto pb-4 mb-6">
       <button
         onClick={() => handleCategoryClick('')}
         className={`text-lg font-medium whitespace-nowrap ${categoriaAtiva === 'Todos'

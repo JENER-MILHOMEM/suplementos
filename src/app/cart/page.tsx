@@ -21,7 +21,7 @@ export default function CartPage() {
   const totalPrice = cart.reduce((total, item) => total + (item.discountPrice || item.price) * item.quantity, 0)
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-2xl">
+    <div className="container mx-auto px-4 max-w-2xl">
       <h1 className="text-2xl font-bold mb-4">Seu Carrinho de Compras</h1>
       {cart.length === 0 ? (
         <p className="text-lg">Seu carrinho está vazio.</p>

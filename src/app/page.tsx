@@ -17,9 +17,8 @@ export default async function Home() {
 
   const products = await getAllDocs('products')
   
-
   return (
-    <div className="mx-20 flex flex-col justify-center items-center">
+    <div className="mx-5 md:mx-20 flex flex-col justify-center items-center">
       <StoreBanner />
       <StoreInfos storeInfos={store} />
       <div className="mt-20 w-full">
