@@ -3,10 +3,12 @@ import React, { useState } from 'react'
 import { CategoryForm } from './category-form'
 import { ProductForm } from './product-form'
 import { Category } from '@/types/products.type'
+import { CreateUser } from './create-user-form'
 
 const formOptions = [
   { name: 'Criar categoria', slug: 'category' },
   { name: 'Criar produto', slug: 'product' },
+  { name: 'Criar usuário (admin)', slug: 'user' },
 ]
 
 type FormSliderProps = {
@@ -15,15 +17,15 @@ type FormSliderProps = {
 
 export function FormSlider({categories} : FormSliderProps) {
 
-  const [activeForm, setActiveForm] = useState('category')
+  const [activeForm, setActiveForm] = useState(formOptions[0].slug)
 
   const handleFormClick = (slug: string) => {
     setActiveForm(slug)
   }
 
   return (
-    <div className="max-w-md mx-auto">
-      <div className="flex space-x-8 overflow-x-auto pb-4 mb-6 w-full">
+    <div className="max-w-xl mx-auto">
+      <div className="flex space-x-8 overflow-x-auto pb-4 mb-6 w-full justify-between">
         {formOptions.map((option) => (
           <button
             key={option.slug}
@@ -38,7 +40,7 @@ export function FormSlider({categories} : FormSliderProps) {
           </button>
         ))}
       </div>
-      {activeForm === 'category' ? <CategoryForm /> : <ProductForm categories={categories} />}
+      {activeForm === 'category' ? <CategoryForm /> : activeForm === 'product' ? <ProductForm categories={categories} /> : <CreateUser/>}
     </div>
   )
 }

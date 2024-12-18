@@ -1,11 +1,12 @@
+'use client'
 import { zodResolver } from '@hookform/resolvers/zod'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Input } from './input-form'
-import { Category } from '@/types/products.type'
+import {Category, Product} from '@/types/products.type'
 import { TextArea } from './text-area'
-import { createProduct } from '@/firebase/mutations/products'
+import { createProduct, updateProduct } from '@/firebase/mutations/products'
 import toast from 'react-hot-toast'
 
 const productSchema = z.object({
@@ -20,14 +21,32 @@ const productSchema = z.object({
 });
 
 type ProductFormData = z.infer<typeof productSchema>
-type CategoryProps = {
-  categories: Category[]
+type ProductProps = {
+    categories: Category[],
+    product?: Product,
+
 }
 
-export const ProductForm = ({ categories }: CategoryProps) => {
+export const ProductForm = ({ categories, product }: ProductProps) => {
 
   const { register, handleSubmit, formState: { errors } } = useForm<ProductFormData>({
-    resolver: zodResolver(productSchema),
+        resolver: zodResolver(productSchema),
+        defaultValues: product ? {
+            name: product.name,
+            category: product.category.id,
+            shortDescription: product.shortDescription,
+            description: product.description,
+            price: product.price,
+            imgUrl: product.imgUrl,
+            discountPrice: product.discountPrice,
+            quantity: product.quantity
+        } : {
+            name: "",
+            category: "",
+            shortDescription: "",
+            description: "",
+            imgUrl: "",
+        }
   })
 
   const onSubmit = async (data: ProductFormData) => {
@@ -39,10 +58,10 @@ export const ProductForm = ({ categories }: CategoryProps) => {
       category,
     };
 
-    const { message, status } = await createProduct(productData)
+    const response  =  product && product.id ? await updateProduct(product.id, productData) : await createProduct(productData)
 
-    if (status == 'ok') toast.success(message)
-    if (status == 'error') toast.error(message)
+    if (response.status == 'ok') toast.success(response.message)
+    if (response.status == 'error') toast.error(response.message)
   }
 
   return (
@@ -106,7 +125,9 @@ export const ProductForm = ({ categories }: CategoryProps) => {
         type="submit"
         className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
       >
-        Adicionar Produto
+          {product ? "Atualizar Produto" :
+            "Adicionar Produto"
+          }
       </button>
     </form>
 

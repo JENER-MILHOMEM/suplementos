@@ -8,7 +8,7 @@ export const StoreBanner = () => {
                 width={1500}
                 height={1500}
                 alt="Banner Eri Suplementos"
-                className="w-5/6"
+                className="w-full md:w-5/6"
             />
     )
 }
