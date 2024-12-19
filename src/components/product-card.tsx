@@ -88,7 +88,7 @@ export function ProductCard({ product }: ProductCardProps) {
                             :
                             <Button
                                 onClick={() => route.push(`/admin/product/update/${product.id}`)}
-                                className='text-sm py-1 flex items-center justify-center bg-green-700'>
+                                className='text-sm py-1 flex items-center justify-center'>
                                 <Bolt />
                             </Button>
                     }

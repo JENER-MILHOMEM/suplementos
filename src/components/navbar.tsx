@@ -71,13 +71,14 @@ export const Navbar = () => {
         }
     })
 
-    const isMobile = useMediaQuery({ maxWidth: 767 });
-    const isDesktop = useMediaQuery({ minWidth: 768 });
-
     const page = isAdmin ? adminPages : normalPages
 
-    if (isMobile) return <TabBar pages={page} user={user} isAdmin={isAdmin} />
-    if (isDesktop) return <NavbarDesktop pages={page} user={user} isAdmin={isAdmin} />
+    return (
+        <>
+            <TabBar pages={page} user={user} isAdmin={isAdmin} />
+            <NavbarDesktop pages={page} user={user} isAdmin={isAdmin} />
+        </>
+    )
 
 }
 
@@ -101,7 +102,7 @@ export const NavbarDesktop = ({ pages, user }: NavBarsProps) => {
     })
 
     return (
-        <header className='bg-white flex md:px-10 lg:px-20 xl:px-32 items-center justify-between border-b h-[60px] fixed top-0 w-full'>
+        <header className='bg-white hidden md:flex md:px-10 lg:px-20 xl:px-32 items-center justify-between border-b h-[60px] fixed top-0 w-full'>
 
             <img
                 onClick={() => route.push('/')}
@@ -156,7 +157,7 @@ export function TabBar({ pages, user }: NavBarsProps) {
 
     return (
         <>
-            <form onSubmit={redirectToProducts} className='flex items-center justify-center gap-3 px-5 py-3 fixed top-0 w-full bg-background/80 backdrop-blur-lg z-50'>
+            <form onSubmit={redirectToProducts} className='flex items-center justify-center gap-3 px-5 py-3 fixed top-0 w-full bg-background/80 backdrop-blur-lg z-50 md:hidden'>
                 <Input
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
@@ -166,7 +167,7 @@ export function TabBar({ pages, user }: NavBarsProps) {
                     onClick={redirectToProducts}
                     className='text-gray-700 hover:scale-110 cursor-pointer' />
             </form>
-            <nav className="fixed bottom-0 left-0 right-0 z-50">
+            <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden">
                 <ul className="flex h-16 items-center justify-around bg-background/80 backdrop-blur-lg">
                     {pages.map((item) => {
 

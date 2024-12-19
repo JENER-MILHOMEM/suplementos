@@ -23,7 +23,7 @@ export function AuthSlider() {
   }
 
   return (
-    <div className="mx-auto xl:w-1/4 flex flex-col items-center">
+    <div className="mx-auto w-full md:w-[450px] flex flex-col items-center">
       <div className="flex overflow-x-auto pb-4 mb-6 gap-10">
         {formOptions.map((option) => (
           <button

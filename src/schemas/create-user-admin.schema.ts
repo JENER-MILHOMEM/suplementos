@@ -2,6 +2,9 @@ import { REQUIRED_FIELD } from "@/constants";
 import { z } from "zod";
 
 export const createUserSchema = z.object({
+  username: z.string({
+    required_error: REQUIRED_FIELD
+  }).optional(),
   email: z.string({
     required_error: REQUIRED_FIELD
   }).email({

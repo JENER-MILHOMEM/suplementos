@@ -1,7 +1,7 @@
 import { auth, googleAuthProvider } from "@/firebase/firebase"
 import { createUserSchema, CreateUserType } from "@/schemas/create-user-admin.schema"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth"
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, updateCurrentUser, updateProfile } from "firebase/auth"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
@@ -23,9 +23,16 @@ export const AuthForm = ({ type }: AuthFormProps) => {
   const onSubmit = async (data: CreateUserType) => {
 
     try {
+      const userCredential = 
       type === "signup" ?
         await createUserWithEmailAndPassword(auth, data.email, data.password) :
         await signInWithEmailAndPassword(auth, data.email, data.password)
+
+      if (data.username && type === 'signup'){
+        await updateProfile(userCredential.user, { 
+          displayName: data.username
+        })
+      }
 
       toast.success(type === "signin" ? "Login realizado com sucesso" : "Conta criada com sucesso")
       route.push('/')
@@ -44,6 +51,9 @@ export const AuthForm = ({ type }: AuthFormProps) => {
   return (
     <form className="w-full space-y-3" onSubmit={handleSubmit(onSubmit)}>
 
+      {
+        type === 'signup' && <Input label="Nome" {...register("username")} type="text" />
+      }
       <Input label="Email" {...register("email")} type="email" />
       <Input label="Senha" {...register("password")} type="password" />
 

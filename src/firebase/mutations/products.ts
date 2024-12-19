@@ -1,21 +1,29 @@
-import { addDoc, collection, updateDoc, doc  } from "firebase/firestore"
-import { db } from "../firebase"
+"use server"
+
 import { MutationRes } from "@/types/mutations-response.type"
 import { Product } from "@/types/products.type"
+import { addDoc, collection, doc, updateDoc } from "firebase/firestore"
+import { auth, db } from "../firebase"
+import { verifyIsAdmin } from "@/lib/utils"
 
-
-export const createProduct = async ({category, description, imgUrl, name, price, quantity, discountPrice} : Product) : Promise<MutationRes> => {
+export const createProduct = async ({ category, description, imgUrl, name, price, quantity, discountPrice }: Product): Promise<MutationRes> => {
     try {
+
+        const isAdmin = await verifyIsAdmin()
+
+        if (!isAdmin) {
+            return { message: "Você não tem permissão suficiente", status: 'error' }
+        }
 
         await addDoc(collection(db, 'products'), {
             category, description, imgUrl, name, price, quantity, discountPrice
         })
 
-        return {message: "Produto criado com sucesso!", status: 'ok'}
+        return { message: "Produto criado com sucesso!", status: 'ok' }
 
     } catch (error) {
         console.log(error);
-        return {message: "Não foi possivel criar o produto", status: 'error', error}
+        return { message: "Não foi possivel criar o produto", status: 'error', error }
     }
 
 }
