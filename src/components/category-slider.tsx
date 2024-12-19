@@ -5,7 +5,7 @@ import { Category } from '@/types/products.type';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-export function CategorySlider({ categoriaAtiva }: { categoriaAtiva: string }) {
+export function CategorySlider({ categoriaAtiva } : { categoriaAtiva: string }) {
 
   const router = useRouter();
   const [categories, setCategories] = useState<Category[]>()
@@ -46,6 +46,16 @@ export function CategorySlider({ categoriaAtiva }: { categoriaAtiva: string }) {
           {categoria.name}
         </button>
       ))}
+      <button
+          key={'produtos'}
+          onClick={() => handleCategoryClick('promotion')}
+          className={`text-lg font-medium whitespace-nowrap ${categoriaAtiva === 'promotion'
+              ? 'text-primary border-b-2 border-primary'
+              : 'text-gray-600 hover:text-gray-800'
+            }`}
+        >
+          Promoções
+        </button>
     </div>
   );
 

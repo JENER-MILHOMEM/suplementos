@@ -13,7 +13,6 @@ import { Button } from './button'
 const productSchema = z.object({
   name: z.string().min(1, 'O nome do produto é obrigatório'),
   category: z.string(),
-  shortDescription: z.string().min(1, 'A descrição curta é obrigatória'),
   description: z.string().min(1, 'A descrição é obrigatória'),
   price: z.number().positive('O preço deve ser um número positivo'),
   imgUrl: z.string().url('A URL da imagem é inválida'),
@@ -35,7 +34,6 @@ export const ProductForm = ({ categories, product }: ProductProps) => {
     defaultValues: product ? {
       name: product.name,
       category: product.category.id,
-      shortDescription: product.shortDescription,
       description: product.description,
       price: product.price,
       imgUrl: product.imgUrl,
@@ -44,7 +42,6 @@ export const ProductForm = ({ categories, product }: ProductProps) => {
     } : {
       name: "",
       category: "",
-      shortDescription: "",
       description: "",
       imgUrl: "",
     }
@@ -86,11 +83,6 @@ export const ProductForm = ({ categories, product }: ProductProps) => {
         </select>
         {errors.category && <p className="mt-1 text-sm text-red-600">{errors.category.message}</p>}
       </div>
-      <Input
-        label="Descrição Curta"
-        {...register('shortDescription')}
-        error={errors.shortDescription?.message}
-      />
       <TextArea
         label="Descrição"
         {...register('description')}

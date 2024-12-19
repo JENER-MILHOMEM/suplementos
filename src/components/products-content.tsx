@@ -22,11 +22,14 @@ export function ProductsContent({ products }: ProductsContentProps) {
     const search = searchParams.get('search');
     setCategoriaAtiva(categoria);
 
-    if (categoria) {
-      setProdutosFiltrados(products.filter((product) => product.category.name === categoria));
-    } else {
-      setProdutosFiltrados(products);
-    }
+    if (categoria)
+
+      if (categoria === 'promotion') 
+        setProdutosFiltrados(products.filter((product) => !!product.discountPrice));
+      else
+        setProdutosFiltrados(products.filter((product) => product.category.name === categoria));
+    else
+      setProdutosFiltrados(products)
 
     if (search) {
       const fuse = new Fuse(products, {

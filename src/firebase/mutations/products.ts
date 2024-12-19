@@ -4,11 +4,11 @@ import { MutationRes } from "@/types/mutations-response.type"
 import { Product } from "@/types/products.type"
 
 
-export const createProduct = async ({category, description, imgUrl, name, price, shortDescription, quantity, discountPrice} : Product) : Promise<MutationRes> => {
+export const createProduct = async ({category, description, imgUrl, name, price, quantity, discountPrice} : Product) : Promise<MutationRes> => {
     try {
 
         await addDoc(collection(db, 'products'), {
-            category, description, imgUrl, name, price, shortDescription, quantity, discountPrice
+            category, description, imgUrl, name, price, quantity, discountPrice
         })
 
         return {message: "Produto criado com sucesso!", status: 'ok'}
