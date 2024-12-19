@@ -8,6 +8,7 @@ import { Category, Product } from '@/types/products.type'
 import { TextArea } from './text-area'
 import { createProduct, updateProduct } from '@/firebase/mutations/products'
 import toast from 'react-hot-toast'
+import { Button } from './button'
 
 const productSchema = z.object({
   name: z.string().min(1, 'O nome do produto é obrigatório'),
@@ -121,14 +122,14 @@ export const ProductForm = ({ categories, product }: ProductProps) => {
         {...register('discountPrice', { valueAsNumber: true })}
         error={errors.discountPrice?.message}
       />
-      <button
+      <Button
         type="submit"
-        className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+        className="w-full text-white py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-opacity-50"
       >
         {product ? "Atualizar Produto" :
           "Adicionar Produto"
         }
-      </button>
+      </Button>
     </form>
 
   )

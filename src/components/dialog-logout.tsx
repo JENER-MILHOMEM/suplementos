@@ -20,7 +20,7 @@ export const DialogLogout = () => {
     try {
       await signOut(auth)
       toast.success("Sucesso")
-      window.location.reload()
+      location.reload()
     } catch (error) {
       toast.error("Erro ao sair da aplicação")
     }

@@ -20,7 +20,7 @@ export function CategorySlider({ categoriaAtiva }: { categoriaAtiva: string }) {
   }, [])
 
   const handleCategoryClick = (slug: string) => {
-    router.push(slug ? `?categoria=${slug}` : '/', { scroll: false });
+    router.push(slug ? `?categoria=${slug}` : '?', { scroll: false });
   };
 
   return (
@@ -28,7 +28,7 @@ export function CategorySlider({ categoriaAtiva }: { categoriaAtiva: string }) {
       <button
         onClick={() => handleCategoryClick('')}
         className={`text-lg font-medium whitespace-nowrap ${categoriaAtiva === 'Todos'
-            ? 'text-blue-600 border-b-2 border-blue-600'
+            ? 'text-primary border-b-2 border-primary'
             : 'text-gray-600 hover:text-gray-800'
           }`}
       >
@@ -39,7 +39,7 @@ export function CategorySlider({ categoriaAtiva }: { categoriaAtiva: string }) {
           key={categoria.id}
           onClick={() => handleCategoryClick(categoria.name)}
           className={`text-lg font-medium whitespace-nowrap ${categoriaAtiva === categoria.name
-              ? 'text-blue-600 border-b-2 border-blue-600'
+              ? 'text-primary border-b-2 border-primary'
               : 'text-gray-600 hover:text-gray-800'
             }`}
         >

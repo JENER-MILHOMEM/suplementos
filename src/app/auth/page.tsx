@@ -4,7 +4,7 @@ const Auth = () => {
 
 
   return (
-    <div className="flex flex-col items-center justify-center w-full mt-8">
+    <div className="flex flex-col items-center justify-center w-full">
       <AuthSlider />
     </div>
   )
