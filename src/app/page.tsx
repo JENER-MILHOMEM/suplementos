@@ -8,7 +8,7 @@ export default async function Home() {
 
   const store: RestaurantProps = {
     name: "ERI SUPLEMENTOS",
-    address: "Avenida Não sei oq",
+    address: "Frei serafim 698 nova caxias",
     imageUrl: '/logo_vetor.svg',
     isClosed: true,
     openingTime: "18:00",
