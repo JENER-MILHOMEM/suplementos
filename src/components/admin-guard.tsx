@@ -8,11 +8,10 @@ import { Loading } from "./loading";
 
 export const AdminGuard = ({ children } : { children: ReactNode }) => {
 
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const [isAdmin, setIsAdmin] = useState<boolean>()
 
   onAuthStateChanged(auth, async (user) => {
-    setIsLoading(true)
     if (user){
       const token = await user.getIdTokenResult()
       if (token.claims.role === "admin")
@@ -22,7 +21,7 @@ export const AdminGuard = ({ children } : { children: ReactNode }) => {
   })
 
   if (isLoading) return <Loading/>
-  if (!isAdmin) return redirect('/')
+  if (!isAdmin && !isLoading) return redirect('/')
 
   return <>{children}</>
 }

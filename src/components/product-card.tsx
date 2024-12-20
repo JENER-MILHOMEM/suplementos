@@ -12,7 +12,7 @@ import { Product } from '@/types/products.type';
 import { onAuthStateChanged } from 'firebase/auth';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { Button } from './button';
 import { Button as ButtonShad } from '@/components/ui/button'
@@ -28,14 +28,18 @@ export function ProductCard({ product }: ProductCardProps) {
     const [isAdmin, setIsAdmin] = useState<boolean>(false)
     const { addItem } = useCartStore()
 
-    onAuthStateChanged(auth, async (user) => {
-        if (user) {
-            const token = await user.getIdTokenResult()
-            if (token.claims.role === "admin") {
-                setIsAdmin(true)
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                const token = await user.getIdTokenResult();
+                setIsAdmin(token.claims.role === "admin");
+            } else {
+                setIsAdmin(false);
             }
-        }
-    })
+        });
+
+        return () => unsubscribe();
+    }, [])
 
     const addToCart = () => {
         addItem({ ...product, quantity: 1 })

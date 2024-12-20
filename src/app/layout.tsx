@@ -1,12 +1,7 @@
-"use client"
-
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
 import { Navbar } from "@/components/navbar";
 import { Poppins } from "next/font/google";
 import { Toaster } from "react-hot-toast";
-import { useMediaQuery } from "react-responsive";
+import "./globals.css";
 
 const font = Poppins({
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
@@ -19,8 +14,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
 
-  const isMobile = useMediaQuery({ maxWidth: 767 });
-
   return (
     <html lang="en">
       <body
@@ -28,7 +21,7 @@ export default function RootLayout({
       >
         <Navbar />
         <Toaster />
-        <div className={`py-5 mx-5 xl:mx-20 ${isMobile ? 'mb-[90px] mt-[46px]' : 'mt-[60px]'}`}>
+        <div className={`py-5 mx-5 xl:mx-20 mb-[90px] mt-[46px] md:mt-[60px]`}>
           {children}
         </div>
       </body>
