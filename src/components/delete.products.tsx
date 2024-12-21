@@ -7,9 +7,8 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
-import {MouseEvent} from 'react'
-import {deleteProduct} from "@/firebase/mutations/products";
+} from "@/components/ui/alert-dialog";
+import { deleteProduct } from "@/firebase/mutations/products";
 import toast from "react-hot-toast";
 
 interface DeleteProps {
@@ -17,21 +16,19 @@ interface DeleteProps {
     id: string
 }
 
-export const DeleteProducts = ({id}: DeleteProps) => {
-   async function  handleDelete(e: MouseEvent<HTMLElement>) {
-        try {
-            e.stopPropagation()
+export const DeleteProducts = ({ id }: DeleteProps) => {
 
-           const res = await deleteProduct(id)
-            toast.success(res)
-        }catch (err){
-            console.error(err)
-        }
+    const handleDeleteProduct = async () => {
+        const res = await deleteProduct(id)
+        res.error ? toast.error(res.message) : toast.success(res.message)
     }
+
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
-                <button onClick={(e) => handleDelete(e)}>
+                <button
+                    onClick={(e) => e.stopPropagation()}
+                    className="w-full flex items-start">
                     Apagar
                 </button>
             </AlertDialogTrigger>
@@ -41,7 +38,7 @@ export const DeleteProducts = ({id}: DeleteProps) => {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                    <AlertDialogAction>Continuar</AlertDialogAction>
+                    <AlertDialogAction onClick={handleDeleteProduct}>Continuar</AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

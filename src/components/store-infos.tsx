@@ -1,9 +1,7 @@
+import { getExceptionsQuery } from '@/firebase/queries/get-exceptions';
+import { getHours as getHoursQuery } from "@/firebase/queries/get-hours";
 import { Clock, MapPin, Truck } from 'lucide-react';
 import StoreStatus from './store-status';
-import { useEffect, useState } from 'react';
-import { Exception, WeekHours } from './store-hours';
-import { getExceptionsQuery } from '@/firebase/queries/get-exceptions';
-import { getHours as getHoursQuery } from "@/firebase/queries/get-hours"
 
 export interface RestaurantProps {
     imageUrl: string

@@ -1,6 +1,5 @@
 import { format, isWithinInterval, setHours, setMinutes } from 'date-fns';
 import { Exception, WeekHours } from './store-hours';
-import { cn } from '@/lib/utils';
 
 type Props = {
   weekHours: WeekHours;

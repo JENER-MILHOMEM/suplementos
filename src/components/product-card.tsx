@@ -15,7 +15,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import {DeleteProducts} from "./delete.products"
+import { DeleteProducts } from "./delete.products"
 import { auth } from '@/firebase/firebase';
 import useCartStore from '@/store/cart';
 import { Product } from '@/types/products.type';
@@ -28,7 +28,6 @@ import { Button } from './button';
 import { Button as ButtonShad } from '@/components/ui/button'
 import { Tag, DollarSign, Package, Settings, Info, ShoppingBasket } from 'lucide-react'
 import React from "react";
-
 
 interface ProductCardProps {
     product: Product;
@@ -105,22 +104,21 @@ export function ProductCard({ product }: ProductCardProps) {
                             :
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
-
-                                        <Button
-                                            className='text-sm py-1 flex items-center justify-center bg-green-700'>
-                                            <Settings />
-                                        </Button>
-
+                                    <Button
+                                        className='text-sm py-1 flex items-center justify-center'>
+                                        <Settings />
+                                    </Button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent className="w-56">
                                     <DropdownMenuLabel>Configurações</DropdownMenuLabel>
                                     <DropdownMenuSeparator />
                                     <DropdownMenuGroup>
                                         <DropdownMenuItem>
-                                            <DeleteProducts id={product.id!} />
+                                            <DeleteProducts id={product.id!}/>
                                         </DropdownMenuItem>
                                         <DropdownMenuItem>
                                             <button
+                                                className="w-full flex items-start"
                                                 onClick={() => route.push(`/admin/product/update/${product.id}`)}
                                             >
                                                 Editar

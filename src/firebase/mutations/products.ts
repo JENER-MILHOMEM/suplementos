@@ -2,6 +2,7 @@ import {addDoc, collection, updateDoc, doc, deleteDoc} from "firebase/firestore"
 import { db } from "../firebase"
 import { MutationRes } from "@/types/mutations-response.type"
 import { Product } from "@/types/products.type"
+import { verifyIsAdmin } from "@/lib/utils"
 
 
 export const createProduct = async ({ category, description, imgUrl, name, price, quantity, discountPrice }: Product): Promise<MutationRes> => {
