@@ -1,4 +1,4 @@
-import { addDoc, collection, updateDoc, doc  } from "firebase/firestore"
+import {addDoc, collection, updateDoc, doc, deleteDoc} from "firebase/firestore"
 import { db } from "../firebase"
 import { MutationRes } from "@/types/mutations-response.type"
 import { Product } from "@/types/products.type"
@@ -33,3 +33,14 @@ export const updateProduct = async (
         return { message: "Não foi possível atualizar o produto", status: 'error', error };
     }
 };
+export const deleteProduct = async (id: string): Promise<MutationRes> => {
+    try {
+        const docRef = doc(db, 'products', id);
+        await deleteDoc(docRef);
+        return {message: "Produto deletado com sucesso!", status: 'ok'}
+    }catch (error){
+        console.log(error)
+        return {message: "Não foi possivel deletar o produto", status: 'error', error}
+    }
+
+}

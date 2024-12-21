@@ -6,6 +6,16 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import {DeleteProducts} from "./delete.products"
 import { auth } from '@/firebase/firebase';
 import useCartStore from '@/store/cart';
 import { Product } from '@/types/products.type';
@@ -16,13 +26,16 @@ import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { Button } from './button';
 import { Button as ButtonShad } from '@/components/ui/button'
-import { Tag, DollarSign, Package, Bolt, Info, ShoppingBasket } from 'lucide-react'
+import { Tag, DollarSign, Package, Settings, Info, ShoppingBasket } from 'lucide-react'
+import React from "react";
+
 
 interface ProductCardProps {
     product: Product;
 }
 
 export function ProductCard({ product }: ProductCardProps) {
+
 
     const route = useRouter()
     const [isAdmin, setIsAdmin] = useState<boolean>(false)
@@ -86,11 +99,33 @@ export function ProductCard({ product }: ProductCardProps) {
                                 <ShoppingBasket />
                             </Button>
                             :
-                            <Button
-                                onClick={() => route.push(`/admin/product/update/${product.id}`)}
-                                className='text-sm py-1 flex items-center justify-center bg-green-700'>
-                                <Bolt />
-                            </Button>
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+
+                                        <Button
+                                            className='text-sm py-1 flex items-center justify-center bg-green-700'>
+                                            <Settings />
+                                        </Button>
+
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent className="w-56">
+                                    <DropdownMenuLabel>Configurações</DropdownMenuLabel>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuGroup>
+                                        <DropdownMenuItem>
+                                            <DeleteProducts id={product.id!} />
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem>
+                                            <button
+                                                onClick={() => route.push(`/admin/product/update/${product.id}`)}
+                                            >
+                                                Editar
+                                            </button>
+                                        </DropdownMenuItem>
+                                    </DropdownMenuGroup>
+                                    <DropdownMenuSeparator />
+                                </DropdownMenuContent>
+                            </DropdownMenu>
                     }
                     <MoreInfoProduct product={product} discount={discount} />
                 </div>
