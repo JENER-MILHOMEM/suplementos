@@ -1,5 +1,9 @@
-import React from 'react';
 import { Clock, MapPin, Truck } from 'lucide-react';
+import StoreStatus from './store-status';
+import { useEffect, useState } from 'react';
+import { Exception, WeekHours } from './store-hours';
+import { getExceptionsQuery } from '@/firebase/queries/get-exceptions';
+import { getHours as getHoursQuery } from "@/firebase/queries/get-hours"
 
 export interface RestaurantProps {
     imageUrl: string
@@ -10,9 +14,11 @@ export interface RestaurantProps {
     deliveryOptions: string[];
 }
 
-export const StoreInfos = ({storeInfos} : {storeInfos: RestaurantProps}) => {
-    
-    const {name, address, deliveryOptions, isClosed, openingTime, imageUrl} = storeInfos
+export const StoreInfos = async ({ storeInfos }: { storeInfos: RestaurantProps }) => {
+
+    const { name, address, deliveryOptions, imageUrl } = storeInfos
+    const hours = await getHoursQuery()
+    const excep = await getExceptionsQuery()
 
     return (
         <div className="w-full bg-white shadow-lg md:rounded-lg rounded-b-lg overflow-hidden mx-auto flex gap-5 items-center p-3 md:px-20 md:border">
@@ -27,9 +33,9 @@ export const StoreInfos = ({storeInfos} : {storeInfos: RestaurantProps}) => {
                 </div>
                 <div className="flex items-center text-sm md:text-lg">
                     <Clock className="w-5 h-5 text-gray-500 mr-2" />
-                    <p className={`${isClosed ? 'text-red-500' : 'text-green-500'} font-semibold`}>
-                        {isClosed ? `Loja Fechada, abre hoje às ${openingTime}` : 'Aberto'}
-                    </p>
+                    {
+                        hours && excep && <StoreStatus exceptions={excep} weekHours={hours} />
+                    }
                 </div>
                 <div className="flex items-center text-sm md:text-lg">
                     <Truck className="w-5 h-5 text-gray-500 mr-2" />

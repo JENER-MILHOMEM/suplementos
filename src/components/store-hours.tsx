@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import { Toaster } from 'react-hot-toast';
-import { format } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
-import RegularHours from './regular-hours';
+"use client"
+
+import { useState } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
 import Exceptions from './exceptions';
+import RegularHours from './regular-hours';
 import StoreStatus from './store-status';
+import { createException, deleteException, updateWeekHour } from '@/firebase/mutations/hours';
 
 export type DayHours = {
   open: string | null;
@@ -16,40 +17,41 @@ export type WeekHours = {
 };
 
 export type Exception = {
+  id?: string;
   date: string;
   open: string | null;
   close: string | null;
   reason?: string;
 };
 
-const initialWeekHours: WeekHours = {
-  monday: { open: "07:00", close: "18:00" },
-  tuesday: { open: "07:00", close: "18:00" },
-  wednesday: { open: "07:00", close: "18:00" },
-  thursday: { open: "07:00", close: "18:00" },
-  friday: { open: "07:00", close: "18:00" },
-  saturday: { open: "08:00", close: "14:00" },
-  sunday: { open: null, close: null },
-};
+export default function StoreHours({ initialWeekHours, exceptionsData }: { initialWeekHours: WeekHours, exceptionsData: Exception[] }) {
 
-export default function StoreHours() {
   const [weekHours, setWeekHours] = useState<WeekHours>(initialWeekHours);
-  const [exceptions, setExceptions] = useState<Exception[]>([]);
+  const [exceptions, setExceptions] = useState<Exception[]>(exceptionsData);
 
-  const updateWeekHours = (day: string, hours: DayHours) => {
-    setWeekHours(prev => ({ ...prev, [day]: hours }));
+  const updateWeekHours = async (day: string, hours: DayHours) => {
+    const res = await updateWeekHour(day, hours)
+    if (res.status === 'ok')
+      setWeekHours(prev => ({ ...prev, [day]: hours }));
+    toast.success(res.message)
   };
 
-  const addException = (exception: Exception) => {
-    setExceptions(prev => [...prev, exception]);
+  const addException = async (exception: Exception) => {
+    const res = await createException(exception)
+    if (res.status === 'ok')
+      setExceptions(prev => [...prev, exception]);
+    toast.success(res.message)
   };
 
-  const removeException = (date: string) => {
-    setExceptions(prev => prev.filter(e => e.date !== date));
+  const removeException = async (id: string) => {
+    const res = await deleteException(id)
+    if (res.status === 'ok')
+      setExceptions(prev => prev.filter(e => e.id !== id));
+    toast.success(res.message)
   };
 
   return (
-    <div className="bg-white shadow-md rounded-lg p-6 border">
+    <div className="bg-white">
       <h2 className="text-2xl font-bold mb-4">Horários da Loja</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div>
@@ -64,7 +66,6 @@ export default function StoreHours() {
       <div className="mt-8">
         <StoreStatus weekHours={weekHours} exceptions={exceptions} />
       </div>
-      <Toaster />
     </div>
   );
 }

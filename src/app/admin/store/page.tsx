@@ -1,14 +1,14 @@
-"use client"
+import StoreHours, { WeekHours } from "@/components/store-hours"
+import { getExceptionsQuery } from "@/firebase/queries/get-exceptions"
+import { getHours } from "@/firebase/queries/get-hours"
 
-import StoreHours from "@/components/store-hours"
-
-const Store = () => {
+const Store = async () => {
+  
+  const hours = await getHours()
+  const exceptions = await getExceptionsQuery()
 
   return (
-    <main className="py-8 w-full">
-      <h1 className="text-3xl font-bold text-center mb-8">Gerenciamento de Horários da Loja</h1>
-      <StoreHours />
-    </main>
+    <StoreHours initialWeekHours={hours as WeekHours} exceptionsData={exceptions} />
   )
 }
 
