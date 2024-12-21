@@ -16,7 +16,14 @@ const productSchema = z.object({
   description: z.string().min(1, 'A descrição é obrigatória'),
   price: z.number().positive('O preço deve ser um número positivo'),
   imgUrl: z.string().url('A URL da imagem é inválida'),
-  discountPrice: z.number().positive('O preço com desconto deve ser um número positivo').optional(),
+  discountPrice: z
+    .number()
+    .positive('O preço com desconto deve ser um número positivo')
+    .nullable()
+    .optional()
+    .refine(value => value === null || value === undefined || !isNaN(value), {
+      message: 'Preço com desconto deve ser um número válido ou nulo',
+    }),
   quantity: z.number().min(0, 'A quantidade deve ser maior ou igual a zero'),
 });
 
@@ -37,13 +44,14 @@ export const ProductForm = ({ categories, product }: ProductProps) => {
       description: product.description,
       price: product.price,
       imgUrl: product.imgUrl,
-      discountPrice: product.discountPrice,
+      discountPrice: product.discountPrice ?? null,
       quantity: product.quantity
     } : {
       name: "",
       category: "",
       description: "",
       imgUrl: "",
+      discountPrice: null
     }
   })
 

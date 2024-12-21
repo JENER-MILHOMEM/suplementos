@@ -5,7 +5,7 @@ export type Product = {
     description: string
     price: number
     imgUrl: string
-    discountPrice?: number
+    discountPrice?: number | null
     quantity: number
 }
 

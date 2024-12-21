@@ -85,7 +85,7 @@ export function ProductCard({ product }: ProductCardProps) {
                                     <span className="text-lg font-bold text-green-600">R$ {product.discountPrice.toFixed(2)}</span>
                                 </div>
                             ) : (
-                                <span className="text-sm font-bold">R$ {product.price.toFixed(2)}</span>
+                                <span className="text-lg font-bold">R$ {product.price.toFixed(2)}</span>
                             )}
                         </div>
                         <span className="text-xs font-medium text-blue-600 bg-blue-100 px-1 py-0.5 rounded">
@@ -114,7 +114,7 @@ export function ProductCard({ product }: ProductCardProps) {
                                     <DropdownMenuSeparator />
                                     <DropdownMenuGroup>
                                         <DropdownMenuItem>
-                                            <DeleteProducts id={product.id!}/>
+                                            <DeleteProducts id={product.id!} />
                                         </DropdownMenuItem>
                                         <DropdownMenuItem>
                                             <button
@@ -138,7 +138,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
 type MoreInfoProductProps = {
     product: Product
-    discount?: number
+    discount?: number | null
 }
 
 export const MoreInfoProduct = ({ product, discount }: MoreInfoProductProps) => {
