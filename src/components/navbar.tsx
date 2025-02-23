@@ -6,7 +6,6 @@ import { motion } from 'framer-motion'
 import { House, LogIn, Scroll, Search, ShoppingCart, SquarePlus, User as UserIcon } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import { FormEvent, ReactNode, useState } from 'react'
-import { useMediaQuery } from 'react-responsive'
 import { Input } from './ui/input'
 
 type NavbarPages = {

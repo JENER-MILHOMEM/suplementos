@@ -8,6 +8,7 @@ import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const User = () => {
+  
   const [user, setUser] = useState<UserType | null>(null);
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [loading, setLoading] = useState(true);

@@ -6,6 +6,7 @@ import { CartItem } from '@/components/cart-item'
 import { CartSummary } from '@/components/cart-summary'
 
 export default function CartPage() {
+  
   const { cart, cleanCart, minusQuantity, removeItem, plusQuantity } = useCartStore()
   const [mounted, setMounted] = useState(false)
 

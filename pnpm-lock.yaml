@@ -59,6 +59,9 @@ importers:
       lucide-react:
         specifier: ^0.468.0
         version: 0.468.0(react@19.0.0)
+      mercadopago:
+        specifier: ^2.3.0
+        version: 2.3.0
       motion:
         specifier: ^11.15.0
         version: 11.15.0(@emotion/is-prop-valid@1.2.2)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -2173,6 +2176,9 @@ packages:
   math-intrinsics@1.0.0:
     resolution: {integrity: sha512-4MqMiKP90ybymYvsut0CH2g4XWbfLtmlCkXmtmdcDCxNB+mQcu1w/1+L/VD7vi/PSv7X2JYV7SCcR+jiPXnQtA==}
     engines: {node: '>= 0.4'}
+
+  mercadopago@2.3.0:
+    resolution: {integrity: sha512-Kbt8d1uHfzHhBn8hOhl83wTa4qzsyq4EOxR+o37Xy1yfEyCZ5eCb480BcIbDAvWK8IxHlFPkGDU9KYGyrobeMA==}
 
   merge2@1.4.1:
     resolution: {integrity: sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==}
@@ -5402,6 +5408,13 @@ snapshots:
       css-mediaquery: 0.1.2
 
   math-intrinsics@1.0.0: {}
+
+  mercadopago@2.3.0:
+    dependencies:
+      node-fetch: 2.7.0
+      uuid: 9.0.1
+    transitivePeerDependencies:
+      - encoding
 
   merge2@1.4.1: {}
 
