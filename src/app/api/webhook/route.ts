@@ -2,7 +2,8 @@ import { db } from "@/firebase/firebase.admin";
 import { mercadopago } from "@/mercadopago";
 import { Payment } from "mercadopago";
 import { NextRequest } from "next/server";
-
+import { deleteQuantityWhenResquestConfirmed } from "@/firebase/mutations/products";
+import { Product } from "@/types/products.type";
 export const config = {
   api: {
     bodyParser: false,
@@ -31,6 +32,7 @@ export async function POST(request: NextRequest) {
           paymentData.status === "approved" || // Pagamento por cartão OU
           paymentData.date_approved !== null // Pagamento por Pix
         ) {
+          const products: Product[] = paymentData.metadata.products || [];
           const paymentId = paymentData.id?.toString()!
           await db.collection("payments").doc(paymentId).set({
             id: paymentId,
@@ -40,6 +42,7 @@ export async function POST(request: NextRequest) {
             products: paymentData.metadata.products || [],
             receptedIn: new Date(),
           });
+          await deleteQuantityWhenResquestConfirmed(products);
         }
         break;
       default:
