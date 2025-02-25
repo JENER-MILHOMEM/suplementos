@@ -1,11 +1,11 @@
 "use client"
 
+import { createException, deleteException, updateWeekHour } from '@/firebase/mutations/hours';
 import { useState } from 'react';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import Exceptions from './exceptions';
 import RegularHours from './regular-hours';
 import StoreStatus from './store-status';
-import { createException, deleteException, updateWeekHour } from '@/firebase/mutations/hours';
 
 export type DayHours = {
   open: string | null;

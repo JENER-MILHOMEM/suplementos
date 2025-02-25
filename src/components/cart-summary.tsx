@@ -33,31 +33,6 @@ export function CartSummary({ totalItems, totalPrice, onClearCart }: CartSummary
     return () => unsubscribe();
   }, []);
 
-  const onPaymentPix = async () => {
-    if (!user) {
-      toast.error("Voce precisa estar logado para realizar o pagamento")
-      return route.push('/auth')
-    }
-
-    try {
-      const response = await toast.promise(paymentMutationPix({
-        userId: user?.uid || '',
-        totalPrice,
-        products: cart
-      }), {
-        error: 'Erro ao criar pagamento',
-        loading: 'Criando pagamento...',
-        success: 'Pagamento criado com sucesso'
-      })
-
-      if (response) {
-        window.open(response.url, '_blank')
-      }
-    } catch (error) {
-      toast.error('Erro ao criar pagamento')
-    }
-  }
-
   const onPayment = async () => {
 
     if (!user) {
@@ -121,8 +96,7 @@ export function CartSummary({ totalItems, totalPrice, onClearCart }: CartSummary
               </DialogDescription>
             </DialogHeader>
             <DialogFooter className="gap-2 md:gap-0">
-              <Button onClick={onPaymentPix} className="bg-green-500" type="submit">Pix</Button>
-              <Button onClick={onPayment}>Outras formas</Button>
+              <Button onClick={onPayment}>Continuar</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>

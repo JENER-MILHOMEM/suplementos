@@ -1,4 +1,4 @@
-import { api } from "@/axios/axios.config";
+import { api } from "@/lib/axios/axios.config";
 import { CreateUserType } from "@/schemas/create-user-admin.schema";
 import { MutationRes } from "@/types/mutations-response.type";
 

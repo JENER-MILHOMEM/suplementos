@@ -1,9 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
-import MercadoPagoConfig, { Preference } from "mercadopago";
+import { mercadopago } from "@/mercadopago";
 import { Metadata } from "@/types/payment";
 import { Product } from "@/types/products.type";
-
-const mercadopago = new MercadoPagoConfig({ accessToken: process.env.MP_ACCESS_TOKEN! });
+import { Preference } from "mercadopago";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   try {

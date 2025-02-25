@@ -7,7 +7,7 @@ type paymentMutationType = {
 }
 
 export const paymentMutationOthers = async ({userId, products}: paymentMutationType) => {
-  const res = await api.post('/api/payment/others', {
+  const res = await api.post('/api/payment', {
     userId, products
   })
 
