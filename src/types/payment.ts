@@ -5,3 +5,7 @@ export type Metadata = {
   userId: string;
   products: Product[];
 };
+
+export type MetadataPix = Metadata & {
+  totalPrice: number;
+};

@@ -1,5 +1,5 @@
 import { stripe } from "@/services/stripe";
-import { Metadata } from "../payment/route";
+import { Metadata } from "../payment/others/route";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "@/services/firebase/firebase.config";
 import Stripe from "stripe";

@@ -6,8 +6,8 @@ type paymentMutationType = {
   products: Product[]
 }
 
-export const paymentMutation = async ({userId, products}: paymentMutationType) => {
-  const res = await api.post('/api/payment', {
+export const paymentMutationOthers = async ({userId, products}: paymentMutationType) => {
+  const res = await api.post('/api/payment/others', {
     userId, products
   })
 
