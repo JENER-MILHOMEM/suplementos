@@ -24,10 +24,10 @@ export function CategorySlider({ categoriaAtiva } : { categoriaAtiva: string }) 
   };
 
   return (
-    <div className="flex space-x-3 md:space-x-8 overflow-x-auto pb-4 mb-6">
+    <div className="flex space-x-3 md:space-x-8 overflow-x-auto pb-4 mb-6 text-sm md:text-base">
       <button
         onClick={() => handleCategoryClick('')}
-        className={`text-lg font-medium whitespace-nowrap ${categoriaAtiva === 'Todos'
+        className={`font-medium whitespace-nowrap ${categoriaAtiva === 'Todos'
             ? 'text-primary border-b-2 border-primary'
             : 'text-gray-600 hover:text-gray-800'
           }`}
@@ -38,7 +38,7 @@ export function CategorySlider({ categoriaAtiva } : { categoriaAtiva: string }) 
         <button
           key={categoria.id}
           onClick={() => handleCategoryClick(categoria.name)}
-          className={`text-lg font-medium whitespace-nowrap ${categoriaAtiva === categoria.name
+          className={`font-medium whitespace-nowrap ${categoriaAtiva === categoria.name
               ? 'text-primary border-b-2 border-primary'
               : 'text-gray-600 hover:text-gray-800'
             }`}
@@ -49,7 +49,7 @@ export function CategorySlider({ categoriaAtiva } : { categoriaAtiva: string }) 
       <button
           key={'produtos'}
           onClick={() => handleCategoryClick('promotion')}
-          className={`text-lg font-medium whitespace-nowrap ${categoriaAtiva === 'promotion'
+          className={`font-medium whitespace-nowrap ${categoriaAtiva === 'promotion'
               ? 'text-primary border-b-2 border-primary'
               : 'text-gray-600 hover:text-gray-800'
             }`}

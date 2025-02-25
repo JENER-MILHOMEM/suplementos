@@ -21,11 +21,6 @@ const normalPages: NavbarPages[] = [
         href: '/'
     },
     {
-        name: "Pedidos",
-        icon: <Scroll className='w-full' />,
-        href: '/requests'
-    },
-    {
         name: "Carrinho",
         icon: <ShoppingCart className='w-full' />,
         href: '/cart'
@@ -34,6 +29,24 @@ const normalPages: NavbarPages[] = [
         name: "Entrar",
         icon: <LogIn className='w-full' />,
         href: '/auth'
+    },
+]
+
+const loggedPages: NavbarPages[] = [
+    {
+        name: "Inicio",
+        icon: <House className='w-full' />,
+        href: '/'
+    },
+    {
+        name: "Pedidos",
+        icon: <Scroll className='w-full' />,
+        href: '/requests'
+    },
+    {
+        name: "Carrinho",
+        icon: <ShoppingCart className='w-full' />,
+        href: '/cart'
     },
 ]
 
@@ -70,7 +83,7 @@ export const Navbar = () => {
         }
     })
 
-    const page = isAdmin ? adminPages : normalPages
+    const page = isAdmin ? adminPages : user ? loggedPages : normalPages
 
     return (
         <>
@@ -107,7 +120,7 @@ export const NavbarDesktop = ({ pages, user }: NavBarsProps) => {
                 onClick={() => route.push('/')}
                 src="/logo_vetor.svg"
                 alt="logo eri suplementos"
-                className='size-[50px] cursor-pointer'
+                className='size-[40px] cursor-pointer'
             />
 
             <form onSubmit={redirectToProducts} className='flex items-center justify-center gap-3'>

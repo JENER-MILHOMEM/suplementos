@@ -1,8 +1,7 @@
-import { stripe } from "@/services/stripe";
-import { Metadata } from "../payment/route";
-import { doc, setDoc } from "firebase/firestore";
-import { db } from "@/services/firebase/firebase.config";
-import Stripe from "stripe";
+import { db } from "@/firebase/firebase.admin";
+import { mercadopago } from "@/mercadopago";
+import { Payment } from "mercadopago";
+import { NextRequest } from "next/server";
 
 export const config = {
   api: {
@@ -10,143 +9,35 @@ export const config = {
   },
 };
 
-export async function POST(req: Request) {
-
-  const sig = req.headers.get("stripe-signature");
-  const secretWebhook = process.env.STRIPE_WEBHOOK_KEY!;
+export async function POST(request: NextRequest) {
 
   try {
-    
-    const rawBody = await req.arrayBuffer();
-    const decodedBody = Buffer.from(rawBody);
 
-    const event = stripe.webhooks.constructEvent(
-      decodedBody,
-      sig!,
-      secretWebhook,
-    );
+    const body = await request.json();
 
-    if (event.type === "checkout.session.completed") {
-      const session = event.data.object;
-      const metadata = session.metadata as Metadata;
+    const { type, data } = body;
 
-      const sessionDetails = await stripe.checkout.sessions.retrieve(
-        session.id,
-        {
-          expand: ["payment_intent.payment_method"],
-        },
-      );
-
-      const paymentIntent =
-        sessionDetails.payment_intent as Stripe.PaymentIntent;
-      const paymentMethod =
-        paymentIntent.payment_method as Stripe.PaymentMethod;
-
-      const paymentMethodType = paymentMethod.type;
-      const paymentId = session.id;
-
-      const { members, registration, ...restData } = metadata;
-
-      if (registration && paymentMethodType != "boleto") {
-        const students = registration.split(",").map((item) => item.trim());
-
-        await Promise.all(
-          students.map(async (student) => {
-            await setDoc(doc(db, "students", student), {
-              paymentId: paymentId,
-              registration: student,
-              createdAt: new Date().toISOString(),
-            });
-          }),
-        );
-      }
-
-      if (members && paymentMethodType != "boleto") {
-        await setDoc(doc(db, "payments", paymentId), {
-          members: members.split(",").map((item) => item.trim()),
-          ...restData,
-          createdAt: new Date().toISOString(),
-          paymentStatus: "succeeded",
-          paymentMethod: paymentMethodType,
-        });
-      }
-
-      if (!members) {
-        await setDoc(doc(db, "payments", paymentId), {
-          ...restData,
-          createdAt: new Date().toISOString(),
-          paymentStatus:
-            paymentMethodType != "boleto" ? "succeeded" : "pending",
-          paymentMethod: paymentMethodType,
-        });
-      }
-    }
-
-    if (event.type === "checkout.session.async_payment_succeeded") {
-      const session = event.data.object;
-      const paymentId = session.id;
-
-      const updatedSession = await stripe.checkout.sessions.retrieve(paymentId);
-      const metadata = updatedSession.metadata as Metadata;
-
-      const sessionDetails = await stripe.checkout.sessions.retrieve(
-        session.id,
-        {
-          expand: ["payment_intent.payment_method"],
-        },
-      );
-
-      const paymentIntent =
-        sessionDetails.payment_intent as Stripe.PaymentIntent;
-      const paymentMethod =
-        paymentIntent.payment_method as Stripe.PaymentMethod;
-
-      const paymentMethodType = paymentMethod.type;
-
-      const { members, registration, ...restData } = metadata;
-
-      if (registration) {
-        const students = registration.split(",").map((item) => item.trim());
-
-        await Promise.all(
-          students.map(async (student) => {
-            await setDoc(doc(db, "students", student), {
-              paymentId: paymentId,
-              registration: student,
-              createdAt: new Date().toISOString(),
-            });
-          }),
-        );
-      }
-
-      if (members) {
-        await setDoc(doc(db, "payments", paymentId), {
-          members: members.split(",").map((item) => item.trim()),
-          ...restData,
-          createdAt: new Date().toISOString(),
-          paymentStatus: "succeeded",
-          paymentMethod: paymentMethodType,
-        });
-      }
-
-      if (!members) {
-        await setDoc(doc(db, "payments", paymentId), {
-          ...restData,
-          createdAt: new Date().toISOString(),
-          paymentStatus: "succeeded",
-          paymentMethod: paymentMethodType,
-        });
-      }
-    }
-
-    if (event.type === "checkout.session.async_payment_failed") {
-      const session = event.data.object;
-      const paymentId = session.id;
-
-      await setDoc(doc(db, "payments", paymentId), {
-        paymentStatus: "failed",
-        updatedAt: new Date().toISOString(),
-      });
+    switch (type) {
+      case "payment":
+        const payment = new Payment(mercadopago);
+        const paymentData = await payment.get({ id: data.id });
+        if (
+          paymentData.status === "approved" || // Pagamento por cartão OU
+          paymentData.date_approved !== null // Pagamento por Pix
+        ) {
+          const paymentId = paymentData.id?.toString()!
+          await db.collection("payments").doc(paymentId).set({
+            id: paymentId,
+            userId: paymentData.metadata.user_id || null,
+            order_id: paymentData.metadata.order_id || null,
+            status: "approved",
+            products: paymentData.metadata.products || [],
+            receptedIn: new Date(),
+          });
+        }
+        break;
+      default:
+        console.log("Unhandled event type:", type);
     }
 
     return new Response(JSON.stringify({ received: true }), { status: 200 });
