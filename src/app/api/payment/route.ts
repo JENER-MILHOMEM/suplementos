@@ -9,6 +9,12 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json()
 
+    const invalidProducts = body.products.filter((product: Product) => product.quantity <= 0);
+     if( invalidProducts.length > 0) {
+       return NextResponse.json( { error: "Alguns produtos estão com a quantidade inválida (<= 0)." },
+           { status: 400 }
+       );
+     }
     const uuid = crypto.randomUUID();
 
     const metadata: Metadata = {
@@ -25,7 +31,7 @@ export async function POST(request: NextRequest) {
           id: product.id!,
           title: product.name,
           unit_price: product.discountPrice ?? product.price,
-          quantity: product.quantity,
+          quantity: product.quantity   ,
           currency_id: "BRL",
         })),
         back_urls: {

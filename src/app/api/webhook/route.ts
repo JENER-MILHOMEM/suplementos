@@ -12,6 +12,12 @@ export const config = {
 export async function POST(request: NextRequest) {
 
   try {
+    const webHookSecret = process.env.WEBHOOK_SECRET;
+    const chaveRecebida = request.headers.get("x-webhook-secret");
+    if(webHookSecret !== chaveRecebida) {
+      console.error("Tentativa de acesso ao webhook com chave inválida!");
+      return new Response("webHook invalid", { status: 403 });
+    }
 
     const body = await request.json();
 
