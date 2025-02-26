@@ -29,9 +29,9 @@ export async function POST(request: NextRequest) {
           currency_id: "BRL",
         })),
         back_urls: {
-          success: "https://seusite.com/success",
-          failure: "https://seusite.com/failure",
-          pending: "https://seusite.com/pending",
+          success: process.env.NEXT_PUBLIC_APP_URL + '/requests',
+          failure: process.env.NEXT_PUBLIC_APP_URL + '/cart',
+          pending: process.env.NEXT_PUBLIC_APP_URL + '/requests?status=pending',
         },
         metadata: metadata,
         auto_return: "approved",

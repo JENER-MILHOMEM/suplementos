@@ -1,16 +1,17 @@
 import Image from 'next/image'
 import { Trash2, Plus, Minus } from 'lucide-react'
 import { formatCurrency } from '@/utils/format'
-import { Product } from '@/types/products.type'
+import { ProductWithQuantity } from '@/store/cart'
 
 interface CartItemProps {
-  item: Product
+  item: ProductWithQuantity
   onIncrease: (id: string) => void
   onDecrease: (id: string) => void
   onRemove: (id: string) => void
 }
 
 export function CartItem({ item, onIncrease, onDecrease, onRemove }: CartItemProps) {
+
   return (
     <div className="flex items-center space-x-4 py-2 border-b">
       <Image src={item.imgUrl} alt={item.name} width={60} height={60} className="rounded-md" />
@@ -23,7 +24,7 @@ export function CartItem({ item, onIncrease, onDecrease, onRemove }: CartItemPro
           <Minus size={14} />
         </button>
         <span className="text-sm font-semibold">{item.quantity}</span>
-        <button onClick={() => onIncrease(item.id!)} className="p-1 bg-gray-200 rounded-full hover:bg-gray-300">
+        <button onClick={() => onIncrease(item.id!)} disabled={item.quantity + 1 > item.initialQuantity} className="p-1 bg-gray-200 rounded-full hover:bg-gray-300 disabled:bg-gray-100 disabled:cursor-not-allowed">
           <Plus size={14} />
         </button>
       </div>
