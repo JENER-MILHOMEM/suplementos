@@ -12,10 +12,10 @@ export const updateWeekHour = async (day: string, hours: DayHours): Promise<Muta
   }
 }
 
-export const createException = async (exception: Exception) : Promise<MutationRes> => {
+export const createException = async (exception: Exception) : Promise<MutationRes & { id?: string }> => {
   try {
-    await addDoc(collection(db, 'exceptions'), exception)
-    return { message: "Exceção criada com sucesso", status: 'ok' }
+    const docRef = await addDoc(collection(db, 'exceptions'), exception)
+    return { message: "Exceção criada com sucesso", status: 'ok', id: docRef.id}
   } catch (error) {
     return { message: "Erro ao criar exceção", status: 'error', error }
   }

@@ -39,7 +39,7 @@ export default function StoreHours({ initialWeekHours, exceptionsData }: { initi
   const addException = async (exception: Exception) => {
     const res = await createException(exception)
     if (res.status === 'ok')
-      setExceptions(prev => [...prev, exception]);
+      setExceptions(prev => [...prev, {...exception, id: res.id}]);
     toast.success(res.message)
   };
 

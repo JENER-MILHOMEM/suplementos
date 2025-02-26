@@ -18,6 +18,9 @@ export default function Exceptions({ exceptions, addException, removeException }
     reason: '',
   });
 
+  console.log(exceptions);
+  
+
   const handleAddException = () => {
     if (!newException.date) {
       toast.error('Selecione uma data para a exceção');
