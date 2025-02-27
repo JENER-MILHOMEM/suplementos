@@ -1,12 +1,13 @@
+"use server"
+
 import { ProductsContent } from "@/components/products-content"
-import { getAllDocs } from "@/firebase/queries/get-all-docs"
+import { getProductsMutation } from "@/firebase/firebase-admin-mutations/get-products"
 import { Product } from "@/types/products.type"
 
 const Products = async () => {
 
-  const products = await getAllDocs('products')
-
-  return <ProductsContent products={products as Product[]}/>
+  const {docs} = await getProductsMutation()
+  return <ProductsContent products={docs as Product[]}/>
 
 }
 

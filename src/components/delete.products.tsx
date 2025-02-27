@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { deleteProduct } from "@/firebase/mutations/products";
 import toast from "react-hot-toast";
+import { Button } from "./ui/button";
 
 interface DeleteProps {
     children?: React.ReactNode
@@ -26,11 +27,7 @@ export const DeleteProducts = ({ id }: DeleteProps) => {
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
-                <button
-                    onClick={(e) => e.stopPropagation()}
-                    className="w-full flex items-start">
-                    Apagar
-                </button>
+                <Button className="w-full" variant={"destructive"}>Deletar Produto</Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
                 <AlertDialogHeader>
