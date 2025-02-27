@@ -31,8 +31,8 @@ const Request = () => {
             <div className="space-y-2 text-sm">
                 {
                     payments && payments.length > 0 ? payments.map((payment) => (
-                        <div className="border rounded-md p-5 border-gray-400 space-y-2">
-                            <div className="flex justify-between">
+                        <div className="border rounded-md border-gray-400 space-y-1">
+                            <div className="flex justify-between p-3.5 bg-gray-50 rounded-t">
                                 <div className="flex flex-col gap-1">
                                     <div className="flex items-center gap-2 font-medium text-sm">
                                         <Box className="text-primary" />
@@ -44,9 +44,10 @@ const Request = () => {
                                     <p>Total: R$ {payment.products.reduce((total, product) => total + (product.discountPrice || product.price) * product.quantity, 0)}</p>
                                 </div>
                             </div>
-                            <p>Produtos</p>
+                            
+                            <p className="px-3.5">Produtos</p>
 
-                            <div className="flex flex-col">
+                            <div className="flex flex-col p-3.5 pt-0">
                                 {
                                     payment.products.map((product) => (
                                         <div className="flex items-center justify-between">
