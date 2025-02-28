@@ -51,7 +51,7 @@ export function ProductsContent({ products }: ProductsContentProps) {
     <div className='w-full'>
       <p className='font-medium text-md md:text-2xl pb-1 mb-1'>Categorias dos Produtos</p>
       <CategorySlider categoriaAtiva={categoriaAtiva || 'Todos'} />
-      <div className="grid gap-3 grid-cols-2 md:grid-cols-3 lg:grid-cols-5 md:gap-6">
+      <div className="grid gap-3 grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 md:gap-6">
         {produtosFiltrados.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}

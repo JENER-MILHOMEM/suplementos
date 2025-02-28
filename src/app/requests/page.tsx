@@ -14,11 +14,13 @@ import { Box } from "lucide-react";
 const Request = () => {
 
     const [payments, setPayments] = useState<PaymentDetailsSnake[]>()
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
+        const unsubscribe = onAuthStateChanged(auth, async (user) => {
             if (user) {
-                getPaymentsQuery({ userId: user.uid }).then((payments) => setPayments(payments))
+                await getPaymentsQuery({ userId: user.uid }).then((payments) => setPayments(payments))
+                setLoading(false)
             }
         });
 
@@ -30,41 +32,41 @@ const Request = () => {
             <h1 className="text-2xl font-bold mb-4">Seus Pedidos</h1>
             <div className="space-y-2 text-sm">
                 {
-                    payments && payments.length > 0 ? payments.map((payment) => (
-                        <div className="border rounded-md border-gray-400 space-y-1">
+                    loading ? <p>Carregando...</p> : !loading && !payments ? <p>Você ainda não fez nenhum pedido.</p> : payments && payments.length > 0 && payments.map((payment) => (
+                        <div key={payment.id} className="border rounded-md border-gray-400 space-y-1">
                             <div className="flex justify-between p-3.5 bg-gray-50 rounded-t">
                                 <div className="flex flex-col gap-1">
-                                    <div className="flex items-center gap-2 font-medium text-sm">
+                                    <div className="flex items-center gap-2 font-medium text-xs sm:text-sm">
                                         <Box className="text-primary" />
                                         <p>Pedido - {payment.id}</p>
                                     </div>
-                                    <p className="text-sm">{formatRelative(subDays(new Date(payment.receptedIn.toDate()), 1), new Date(), { locale: ptBR })} </p>
+                                    <p className="text-xs sm:text-sm">{formatRelative(subDays(new Date(payment.receptedIn.toDate()), 1), new Date(), { locale: ptBR })} </p>
                                 </div>
-                                <div className="flex items-center">
+                                <div className="flex items-center text-xs sm:text-sm">
                                     <p>Total: R$ {payment.products.reduce((total, product) => total + (product.discountPrice || product.price) * product.quantity, 0)}</p>
                                 </div>
                             </div>
                             
-                            <p className="px-3.5">Produtos</p>
+                            <p className="px-3.5 text-xs sm:text-sm">Produtos</p>
 
                             <div className="flex flex-col p-3.5 pt-0">
                                 {
                                     payment.products.map((product) => (
-                                        <div className="flex items-center justify-between">
+                                        <div key={product.id} className="flex items-center justify-between">
                                             <div className="flex items-center gap-2">
                                                 <img src={product.img_url} alt={product.name} className="w-7 h-7 rounded-md" />
                                                 <div className="flex items-center gap-1">
                                                     <p className="text-xs text-gray-600">{product.quantity}x</p>
-                                                    <p className="text-sm font-semibold">{product.name}</p>
+                                                    <p className="text-xs sm:text-sm font-semibold">{product.name}</p>
                                                 </div>
                                             </div>
-                                            <p className="text-sm">R$ {product.discountPrice || product.price}</p>
+                                            <p className="text-xs sm:text-sm">R$ {product.discountPrice || product.price}</p>
                                         </div>
                                     ))
                                 }
                             </div>
                         </div>
-                    )) : <p className="text-lg">Seu carrinho está vazio.</p>
+                    ))
                 }
             </div>
         </div>

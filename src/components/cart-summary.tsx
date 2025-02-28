@@ -1,6 +1,5 @@
 import { auth } from "@/firebase/firebase"
 import { paymentMutationOthers } from "@/firebase/mutations/payment-others"
-import { paymentMutationPix } from "@/firebase/mutations/payment-pix"
 import useCartStore from "@/store/cart"
 import { formatCurrency } from "@/utils/format"
 import { onAuthStateChanged, User } from "firebase/auth"
@@ -40,22 +39,24 @@ export function CartSummary({ totalItems, totalPrice, onClearCart }: CartSummary
       return route.push('/auth')
     }
 
-    try {
-      const response = await toast.promise(paymentMutationOthers({
-        userId: user?.uid || '',
-        products: cart
-      }), {
-        error: 'Erro ao criar pagamento',
-        loading: 'Criando pagamento...',
-        success: 'Pagamento criado com sucesso'
-      })
+    route.push(`/checkout?user=${user.uid}`)
 
-      if (response) {
-        window.open(response.url, '_blank')
-      }
-    } catch (error) {
-      toast.error('Erro ao criar pagamento')
-    }
+    // try {
+    //   const response = await toast.promise(paymentMutationOthers({
+    //     userId: user?.uid || '',
+    //     products: cart
+    //   }), {
+    //     error: 'Erro ao criar pagamento',
+    //     loading: 'Criando pagamento...',
+    //     success: 'Pagamento criado com sucesso'
+    //   })
+
+    //   if (response) {
+    //     window.open(response.url, '_blank')
+    //   }
+    // } catch (error) {
+    //   toast.error('Erro ao criar pagamento')
+    // }
   }
 
   return (
@@ -76,9 +77,11 @@ export function CartSummary({ totalItems, totalPrice, onClearCart }: CartSummary
           Limpar
         </Button>
 
+        <Button onClick={onPayment} className="w-full bg-green-500 text-white hover:bg-green-600 transition-colors text-xs md:text-sm">Continuar pagamento</Button>
+
+
         <Dialog>
-          <DialogTrigger className="w-full">
-            <Button className="w-full bg-green-500 text-white hover:bg-green-600 transition-colors text-xs md:text-sm">Continuar pagamento</Button>
+          <DialogTrigger asChild className="w-full">
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
