@@ -12,8 +12,10 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Loader2 } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { Textarea } from "@/components/ui/textarea"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Separator } from "@/components/ui/separator"
+import { getAddressCep } from "@/firebase/queries/get-address-cep"
+import { getStoreInfos } from "@/firebase/queries/get-store-infos"
 
 const Payment = () => {
 
@@ -21,14 +23,23 @@ const Payment = () => {
 
   const [isLoading, setIsLoading] = useState(false)
   const [isAddressLoading, setIsAddressLoading] = useState(false)
-
+  
+  
   const subtotal = cart.reduce((acc, item) => {
     const itemPrice = item.discountPrice !== null && item.discountPrice !== undefined ? item.discountPrice : item.price
     return acc + itemPrice * item.quantity
   }, 0)
+  
+  const [storeInfos, setStoreInfos] = useState<StoreInfos>()
+  const total = subtotal + (storeInfos?.deliveryTax || 0)
 
-  const shipping = 12.9
-  const total = subtotal + shipping
+  useEffect(() => {
+    const fetchStoreInfos = async () => {
+      const infos = await getStoreInfos()
+      setStoreInfos(infos[0])
+    }
+    fetchStoreInfos()
+  })
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -47,12 +58,19 @@ const Payment = () => {
       reference: "",
     },
   })
-  
-  const fetchAddressByCep = async (cep: string) => {
 
+  const fetchAddressByCep = async (cep: string) => {
+    setIsAddressLoading(true)
+    const address = await getAddressCep(cep)
+    form.setValue("street", address.logradouro)
+    form.setValue("neighborhood", address.bairro)
+    form.setValue("city", address.localidade)
+    form.setValue("state", address.uf)
+    setIsAddressLoading(false)
   }
 
-  const onSubmit = () => {
+  const onSubmit = (FormData: FormValues) => {
+    console.log(FormData);
     
   }
 
@@ -301,14 +319,12 @@ const Payment = () => {
           </Form>
         </div>
 
-        {/* Resumo do pedido */}
         <div>
           <Card>
             <CardHeader>
               <CardTitle>Resumo do Pedido</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              {/* Itens do carrinho */}
               <div className="space-y-4">
                 {cart.map((item) => (
                   <div key={item.id} className="flex gap-4">
@@ -339,7 +355,6 @@ const Payment = () => {
 
               <Separator />
 
-              {/* Totais */}
               <div className="space-y-2">
                 <div className="flex justify-between">
                   <span>Subtotal</span>
@@ -348,7 +363,7 @@ const Payment = () => {
                 {isDelivery ? (
                   <div className="flex justify-between">
                     <span>Frete</span>
-                    <span>R$ {shipping.toFixed(2).replace(".", ",")}</span>
+                    <span>R$ {storeInfos?.deliveryTax.toFixed(2).replace(".", ",")}</span>
                   </div>
                 ) : (
                   <div className="flex justify-between">
