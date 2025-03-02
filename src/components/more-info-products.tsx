@@ -110,7 +110,7 @@ export const MoreInfoProduct = ({ product, discount, children }: MoreInfoProduct
                                 </ButtonShad>
                                 <DeleteProducts id={product.id!} />
                             </div>
-                        ) : <Button onClick={addToCart}>Adicionar ao carrinho</Button>
+                        ) : <Button className="disabled:cursor-not-allowed disabled:bg-gray-400" onClick={addToCart} disabled={product.quantity === 0}>{product.quantity === 0 ? "Produto esgotado" : "Adicionar ao carrinho"}</Button>
                     }
                 </div>
             </DialogContent>

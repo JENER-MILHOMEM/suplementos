@@ -1,3 +1,5 @@
+import { verifyProductQuantity } from "@/actions/verifyProductQuantity";
+import { getStoreInfos } from "@/firebase/queries/get-store-infos";
 import { mercadopago } from "@/mercadopago";
 import { Metadata } from "@/types/payment";
 import { Product } from "@/types/products.type";
@@ -14,8 +16,20 @@ export async function POST(request: NextRequest) {
     const metadata: Metadata = {
       orderId: uuid,
       userId: body.userId,
-      products: body.products as Product[]
+      products: body.products as Product[],
+      buyInfos: body.buyInfos
     }
+
+    await Promise.all(
+      metadata.products.map(async (prod) => {
+        const res = await verifyProductQuantity(prod);
+        if (res.status === 'error') {
+          throw new Error(res.message)
+        }
+      })
+    );
+
+    const store = await getStoreInfos()
 
     const preference = new Preference(mercadopago);
 
@@ -28,10 +42,14 @@ export async function POST(request: NextRequest) {
           quantity: product.quantity,
           currency_id: "BRL",
         })),
+        shipments: {
+          cost: metadata.buyInfos.deliveryMethod === "delivery" ? store[0].deliveryTax : 0,
+          mode: "not_specified",
+        },
         back_urls: {
           success: process.env.NEXT_PUBLIC_APP_URL + '/requests',
           failure: process.env.NEXT_PUBLIC_APP_URL + '/cart',
-          pending: process.env.NEXT_PUBLIC_APP_URL + '/requests?status=pending',
+          pending: process.env.NEXT_PUBLIC_APP_URL + '/requests',
         },
         metadata: metadata,
         auto_return: "approved",
@@ -39,8 +57,8 @@ export async function POST(request: NextRequest) {
     });
 
     return NextResponse.json({ url: response.sandbox_init_point ?? response.init_point }, { status: 200 });
-  } catch (error) {
-    console.error("Erro ao criar pagamento:", error);
-    return NextResponse.json({ error: "Erro ao criar pagamento" }, { status: 500 });
+  } catch (error:any) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
+

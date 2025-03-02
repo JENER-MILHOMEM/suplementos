@@ -1,5 +1,5 @@
+import { deleteQuantityWhenResquestConfirmed } from "@/actions/updateQuantityProduct";
 import { db } from "@/firebase/firebase.admin";
-import { deleteQuantityWhenResquestConfirmed } from "@/firebase/mutations/products";
 import { mercadopago, verifyMercadoPagoSignature } from "@/mercadopago";
 import { Product } from "@/types/products.type";
 import { Payment } from "mercadopago";
@@ -40,6 +40,7 @@ export async function POST(request: Request) {
             order_id: paymentData.metadata.order_id || null,
             status: "approved",
             products: paymentData.metadata.products || [],
+            buyInfos: paymentData.metadata.buy_infos || {},
             receptedIn: new Date(),
           });
 

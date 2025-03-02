@@ -1,21 +1,24 @@
 "use client"
 
+import { checkoutAction } from "@/actions/checkout"
 import { Button } from "@/components/button"
-import { Input } from "@/components/ui/input"
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { Separator } from "@/components/ui/separator"
+import { Textarea } from "@/components/ui/textarea"
+import { getAddressCep } from "@/firebase/queries/get-address-cep"
+import { getStoreInfos } from "@/firebase/queries/get-store-infos"
 import formSchema from "@/schemas/checkout"
 import useCartStore from "@/store/cart"
 import { FormValues } from "@/types/checkout"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Loader2 } from "lucide-react"
-import { useForm } from "react-hook-form"
-import { Textarea } from "@/components/ui/textarea"
+import { useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
-import { Separator } from "@/components/ui/separator"
-import { getAddressCep } from "@/firebase/queries/get-address-cep"
-import { getStoreInfos } from "@/firebase/queries/get-store-infos"
+import { useForm } from "react-hook-form"
+import toast from "react-hot-toast"
 
 const Payment = () => {
 
@@ -23,13 +26,14 @@ const Payment = () => {
 
   const [isLoading, setIsLoading] = useState(false)
   const [isAddressLoading, setIsAddressLoading] = useState(false)
-  
-  
+
+  const searchParams = useSearchParams()
+
   const subtotal = cart.reduce((acc, item) => {
     const itemPrice = item.discountPrice !== null && item.discountPrice !== undefined ? item.discountPrice : item.price
     return acc + itemPrice * item.quantity
   }, 0)
-  
+
   const [storeInfos, setStoreInfos] = useState<StoreInfos>()
   const total = subtotal + (storeInfos?.deliveryTax || 0)
 
@@ -39,7 +43,7 @@ const Payment = () => {
       setStoreInfos(infos[0])
     }
     fetchStoreInfos()
-  })
+  }, [])
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -69,16 +73,38 @@ const Payment = () => {
     setIsAddressLoading(false)
   }
 
-  const onSubmit = (FormData: FormValues) => {
-    console.log(FormData);
-    
-  }
+  const onSubmit = async (FormData: FormValues) => {
+    setIsLoading(true);
+    const userId = searchParams.get("user");
+
+    try {
+      const response = await toast.promise(
+        checkoutAction(FormData, userId as string, cart),
+        {
+          loading: 'Criando compra...',
+          success: 'Compra criada com sucesso',
+          error: (error: any) => error.message || 'Erro ao criar compra',
+        }
+      );
+
+      if (response?.url) {
+        window.open(response.url, '_blank');
+      } else {
+        toast.error('URL de pagamento não encontrada');
+      }
+
+    } catch (error) {
+      console.error("Erro no onSubmit:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const deliveryMethod = form.watch("deliveryMethod")
   const isDelivery = deliveryMethod === "delivery"
 
   return (
-    <div className="container mx-auto px-4">
+    <div className="px-4 w-full">
       <h1 className="text-2xl font-bold mb-8 text-center">Finalizar Compra</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -307,10 +333,10 @@ const Payment = () => {
 
               <Button type="submit" className="w-full" disabled={isLoading}>
                 {isLoading ? (
-                  <>
+                  <div className="flex items-center justify-center w-full">
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     Processando...
-                  </>
+                  </div>
                 ) : (
                   "Finalizar Pedido"
                 )}
@@ -327,7 +353,7 @@ const Payment = () => {
             <CardContent className="space-y-4">
               <div className="space-y-4">
                 {cart.map((item) => (
-                  <div key={item.id} className="flex gap-4">
+                  <div key={item.id} className="flex lg:gap-4">
                     <img
                       src={item.imgUrl || "/placeholder.svg"}
                       alt={item.name}
@@ -368,7 +394,7 @@ const Payment = () => {
                 ) : (
                   <div className="flex justify-between">
                     <span>Frete</span>
-                    <span className="text-primary">Grátis (retirada na loja)</span>
+                    <span className="text-primary">Gratis</span>
                   </div>
                 )}
                 <Separator />
