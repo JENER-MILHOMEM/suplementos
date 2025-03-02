@@ -14,7 +14,7 @@ export function ProductCard({ product }: ProductCardProps) {
         <MoreInfoProduct product={product} discount={discount}>
             <div className='w-[150px] md:w-auto flex flex-col bg-white rounded-lg shadow-md border h-full max-w-[250px] mx-auto cursor-pointer hover:shadow-lg'>
 
-                <div className="relative w-[150px] pt-[75%] md:w-[250px] mx-auto">
+                <div className="relative w-[150px] pt-[75%] md:w-[200px] xl:w-[200px] mx-auto z-0">
                     <Image
                         src={product.imgUrl}
                         alt={product.name}

@@ -65,6 +65,10 @@ const adminPages: NavbarPages[] = [
         name: "Horário",
         icon: <Clock className='w-full' />,
         href: '/admin/store'
+    },{
+        name: "Pedidos",
+        icon: <Scroll className='w-full' />,
+        href: '/admin/requests'
     }
 ]
 
@@ -119,7 +123,7 @@ export const NavbarDesktop = ({ pages, user }: NavBarsProps) => {
     })
 
     return (
-        <header className='bg-white hidden md:flex md:px-10 lg:px-20 xl:px-32 items-center justify-between border-b h-[60px] fixed top-0 w-full'>
+        <header className='bg-white hidden md:flex md:px-10 lg:px-20 xl:px-32 items-center justify-between border-b h-[60px] fixed top-0 w-full z-50'>
 
             <img
                 onClick={() => route.push('/')}
@@ -174,7 +178,7 @@ export function TabBar({ pages, user }: NavBarsProps) {
 
     return (
         <>
-            <form onSubmit={redirectToProducts} className='flex items-center justify-center gap-3 px-5 py-3 fixed top-0 w-full bg-background/80 backdrop-blur-lg z-50 md:hidden'>
+            <form onSubmit={redirectToProducts} className='flex items-center justify-center gap-3 px-5 py-3 fixed top-0 w-full bg-background/80 backdrop-blur-lg z-[9999] md:hidden'>
                 <Input
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}

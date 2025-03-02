@@ -18,12 +18,8 @@ const productSchema = z.object({
   imgUrl: z.string().url('A URL da imagem é inválida'),
   discountPrice: z
     .number()
-    .positive('O preço com desconto deve ser um número positivo')
     .nullable()
-    .optional()
-    .refine(value => value === null || value === undefined || !isNaN(value), {
-      message: 'Preço com desconto deve ser um número válido ou nulo',
-    }),
+    .optional(),
   quantity: z.number().min(0, 'A quantidade deve ser maior ou igual a zero'),
 });
 
@@ -44,20 +40,22 @@ export const ProductForm = ({ categories, product }: ProductProps) => {
       description: product.description,
       price: product.price,
       imgUrl: product.imgUrl,
-      discountPrice: product.discountPrice ?? null,
+      discountPrice: product?.discountPrice ?? null,
       quantity: product.quantity
     } : {
       name: "",
       category: "",
       description: "",
       imgUrl: "",
-      discountPrice: null
+      discountPrice: null,
     }
   })
 
   const onSubmit = async (data: ProductFormData) => {
 
     const category = categories.find((category) => category.id === data.category) || categories[0]
+
+    if (data.discountPrice === 0) data.discountPrice = null
 
     const productData = {
       ...data,

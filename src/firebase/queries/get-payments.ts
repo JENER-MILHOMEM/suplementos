@@ -2,7 +2,7 @@ import { collection, getDocs, query, where } from "@firebase/firestore"
 import { db } from "../firebase"
 
 type getPaymentsQueryType = {
-  userId: string
+  userId?: string
 }
 
 export const getPaymentsQuery = async ({userId} : getPaymentsQueryType) => {
@@ -11,6 +11,8 @@ export const getPaymentsQuery = async ({userId} : getPaymentsQueryType) => {
   const q = userId ? query(colRef, where('userId', '==', userId)) : colRef
   const snapShot = await getDocs(q)
 
+  console.log(snapShot.docs.map(doc => doc.data()));
+
   return snapShot.docs.map(doc => ({
     id: doc.id,
     user_id: doc.data().userId,
@@ -18,7 +20,7 @@ export const getPaymentsQuery = async ({userId} : getPaymentsQueryType) => {
     status: doc.data().status,
     products: doc.data().products,
     receptedIn: doc.data().receptedIn,
-    buy_infos: doc.data().buy_infos
+    buy_infos: doc.data().buyInfos
   }))
 
 }
