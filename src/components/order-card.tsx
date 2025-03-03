@@ -3,6 +3,7 @@ import { formatRelative, subDays } from "date-fns"
 import { ptBR } from "date-fns/locale"
 import { Box } from "lucide-react"
 import { Separator } from "./ui/separator"
+import { Badge } from "./ui/badge"
 
 type OrderCardType = {
   payments: PaymentDetailsRes[] | undefined
@@ -21,7 +22,7 @@ export const OrderCard = ({ payments, loading }: OrderCardType) => {
             <div className="flex justify-between p-3.5 bg-gray-50 rounded-t">
               <div className="flex flex-col gap-1">
                 <div className="flex items-center gap-2 font-medium text-xs sm:text-sm">
-                  <Box className="text-primary" />  
+                  <Box className="text-primary" />
                   <p>Pedido - {payment.id}</p>
                 </div>
                 <p className="text-xs sm:text-sm">{formatRelative(new Date(payment.receptedIn.toDate()), new Date(), { locale: ptBR })} </p>
@@ -55,14 +56,14 @@ export const OrderCard = ({ payments, loading }: OrderCardType) => {
             <div className="p-3.5 space-y-1">
               <div className="flex sm:flex-row flex-col sm:items-center justify-between">
                 <p className="text-xs sm:text-sm"><b>Nome</b> {payment.buy_infos.full_name}</p>
-                <p className="text-xs sm:text-sm"><b>Entrega</b> {payment.buy_infos.delivery_method === "delivery" ? "Entrega" : "Retirada"}</p>
+                <Badge className="text-xs sm:text-sm" variant={"secondary"}>{payment.buy_infos.delivery_method === "delivery" ? "Entrega" : "Retirada"}</Badge>
               </div>
 
               {
                 payment.buy_infos.delivery_method === "delivery" && (
                   <div className="flex sm:flex-row flex-col sm:items-center justify-between">
-                    <p className="text-xs sm:text-sm"><b>Endereço</b> {payment.buy_infos.street}, {payment.buy_infos.neighborhood}, {payment.buy_infos.city}</p>
-                    <p className="text-xs sm:text-sm"><b>cep</b> {payment.buy_infos.cep}</p><p className="text-xs sm:text-sm"></p>
+                    <p className="text-xs sm:text-sm"><b>Endereço</b> {payment.buy_infos.street}, {payment.buy_infos.neighborhood}, {payment.buy_infos.number}</p>
+                    <p className="text-xs sm:text-sm"><b>cep</b> {payment.buy_infos.cep}</p>
                   </div>
                 )
               }

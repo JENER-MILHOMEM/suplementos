@@ -1,5 +1,4 @@
 import { auth } from "@/firebase/firebase"
-import { paymentMutationOthers } from "@/firebase/mutations/payment-others"
 import useCartStore from "@/store/cart"
 import { formatCurrency } from "@/utils/format"
 import { onAuthStateChanged, User } from "firebase/auth"
@@ -39,24 +38,7 @@ export function CartSummary({ totalItems, totalPrice, onClearCart }: CartSummary
       return route.push('/auth')
     }
 
-    route.push(`/checkout?user=${user.uid}`)
-
-    // try {
-    //   const response = await toast.promise(paymentMutationOthers({
-    //     userId: user?.uid || '',
-    //     products: cart
-    //   }), {
-    //     error: 'Erro ao criar pagamento',
-    //     loading: 'Criando pagamento...',
-    //     success: 'Pagamento criado com sucesso'
-    //   })
-
-    //   if (response) {
-    //     window.open(response.url, '_blank')
-    //   }
-    // } catch (error) {
-    //   toast.error('Erro ao criar pagamento')
-    // }
+    route.push("/checkout")
   }
 
   return (

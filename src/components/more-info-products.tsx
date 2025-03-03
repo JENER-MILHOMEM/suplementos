@@ -65,7 +65,7 @@ export const MoreInfoProduct = ({ product, discount, children }: MoreInfoProduct
                             src={product.imgUrl}
                             alt={product.name}
                             fill
-                            className="rounded-lg object-cover"
+                            className="rounded-lg object-cover w-auto h-auto"
                         />
                     </div>
                     <div className="grid grid-cols-[24px,1fr] items-center gap-2">

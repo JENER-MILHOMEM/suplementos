@@ -3,7 +3,7 @@
 import { auth } from '@/firebase/firebase'
 import { onAuthStateChanged, User } from 'firebase/auth'
 import { motion } from 'framer-motion'
-import { Clock, House, LogIn, Scroll, Search, ShoppingCart, SquarePlus, User as UserIcon } from 'lucide-react'
+import { Clock, FilePenLine, House, LogIn, Scroll, Search, ShoppingCart, User as UserIcon } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import { FormEvent, ReactNode, useState } from 'react'
 import { Input } from './ui/input'
@@ -57,9 +57,9 @@ const adminPages: NavbarPages[] = [
         href: '/'
     },
     {
-        name: "Criar",
-        icon: <SquarePlus className='w-full' />,
-        href: '/admin/create'
+        name: "Editar",
+        icon: <FilePenLine className='w-full' />,
+        href: '/admin/edit'
     },
     {
         name: "Horário",

@@ -3,25 +3,20 @@ import { getHours as getHoursQuery } from "@/firebase/queries/get-hours";
 import { Clock, MapPin, Truck } from 'lucide-react';
 import StoreStatus from './store-status';
 
-export interface RestaurantProps {
-    imageUrl: string
-    name: string;
-    address: string;
-    isClosed: boolean;
-    openingTime: string;
-    deliveryOptions: string[];
+type StoreInfosComponentType = {
+    store: StoreInfos
 }
 
-export const StoreInfos = async ({ storeInfos }: { storeInfos: RestaurantProps }) => {
+export const StoreInfos = async ({ store } : StoreInfosComponentType) => {
 
-    const { name, address, deliveryOptions, imageUrl } = storeInfos
+    const { name, address, deliveryTax, deliveryOptions } = store
     const hours = await getHoursQuery()
     const excep = await getExceptionsQuery()
 
     return (
         <div className="w-full bg-white shadow-lg md:rounded-lg rounded-b-lg overflow-hidden mx-auto flex gap-5 items-center p-3 md:px-20 md:border">
 
-            <img src={imageUrl} alt="logo eri suplementos" className='h-[70px] md:h-[100px]' />
+            <img src={'/logo_vetor.svg'} alt="logo eri suplementos" className='h-[70px] md:h-[100px]' />
 
             <div className="md:p-6 flex flex-col items-start">
                 <h2 className="text-md md:text-xl font-bold tracking-wider">{name}</h2>

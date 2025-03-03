@@ -4,11 +4,13 @@ import { CategoryForm } from './category-form'
 import { ProductForm } from './product-form'
 import { Category } from '@/types/products.type'
 import { CreateUser } from './create-user-form'
+import { StoreForm } from './store-form'
 
 const formOptions = [
   { name: 'Categoria', slug: 'category' },
   { name: 'Produto', slug: 'product' },
   { name: 'Usuário (admin)', slug: 'user' },
+  { name: 'Loja', slug: 'store' },
 ]
 
 type FormSliderProps = {
@@ -40,7 +42,7 @@ export function FormSlider({categories} : FormSliderProps) {
           </button>
         ))}
       </div>
-      {activeForm === 'category' ? <CategoryForm /> : activeForm === 'product' ? <ProductForm categories={categories} /> : <CreateUser/>}
+      {activeForm === 'category' ? <CategoryForm /> : activeForm === 'product' ? <ProductForm categories={categories} /> : activeForm === 'store' ? <StoreForm /> : <CreateUser/>}
     </div>
   )
 }

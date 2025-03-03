@@ -8,14 +8,15 @@ import { Input } from "@/components/ui/input"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Separator } from "@/components/ui/separator"
 import { Textarea } from "@/components/ui/textarea"
+import { auth } from "@/firebase/firebase"
 import { getAddressCep } from "@/firebase/queries/get-address-cep"
 import { getStoreInfos } from "@/firebase/queries/get-store-infos"
 import formSchema from "@/schemas/checkout"
 import useCartStore from "@/store/cart"
 import { FormValues } from "@/types/checkout"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { User } from "firebase/auth"
 import { Loader2 } from "lucide-react"
-import { useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
@@ -26,8 +27,7 @@ const Payment = () => {
 
   const [isLoading, setIsLoading] = useState(false)
   const [isAddressLoading, setIsAddressLoading] = useState(false)
-
-  const searchParams = useSearchParams()
+  const [user, setUser] = useState<User | null>(null)
 
   const subtotal = cart.reduce((acc, item) => {
     const itemPrice = item.discountPrice !== null && item.discountPrice !== undefined ? item.discountPrice : item.price
@@ -42,7 +42,16 @@ const Payment = () => {
       const infos = await getStoreInfos()
       setStoreInfos(infos[0])
     }
-    fetchStoreInfos()
+
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setUser(user)
+    })
+
+    return () => {
+      unsubscribe()
+      fetchStoreInfos()
+    }
+
   }, [])
 
   const form = useForm<FormValues>({
@@ -75,11 +84,10 @@ const Payment = () => {
 
   const onSubmit = async (FormData: FormValues) => {
     setIsLoading(true);
-    const userId = searchParams.get("user");
 
     try {
       const response = await toast.promise(
-        checkoutAction(FormData, userId as string, cart),
+        checkoutAction(FormData, user?.uid!, cart),
         {
           loading: 'Criando compra...',
           success: 'Compra criada com sucesso',

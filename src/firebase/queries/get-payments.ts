@@ -11,8 +11,6 @@ export const getPaymentsQuery = async ({userId} : getPaymentsQueryType) => {
   const q = userId ? query(colRef, where('userId', '==', userId)) : colRef
   const snapShot = await getDocs(q)
 
-  console.log(snapShot.docs.map(doc => doc.data()));
-
   return snapShot.docs.map(doc => ({
     id: doc.id,
     user_id: doc.data().userId,

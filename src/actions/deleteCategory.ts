@@ -4,28 +4,35 @@ import { db } from "@/firebase/firebase.admin";
 
 export const deleteCategory = async (id: string) => {
   try {
-    const batch = db.batch();
-    const categoryRef = db.collection("productCategories").doc(id);
+
+    //identificando a coleção
+    const catCollection = db.doc(`productCategories/${id}`)
+
+    //pegando o documento
+    const category  = await catCollection.get()
+
+    if (!category.exists) {
+      throw new Error("Categoria nao encontrada")
+    }
+
+    //pegando os produtos da categoria
+    const prodCollection = db.collection("products").where("category.id", "==", category.id)
+
+    //coletando os documentos
+    const querySnapshot = await prodCollection.get()
+
+    if (querySnapshot.docs.length > 0) {
+      console.log("Deletando os produtos da categoria");
+      
+      for (const doc of querySnapshot.docs) {
+        await db.doc(`products/${doc.id}`).delete()
+      }
+    }
+
+    //deletando a categoria
+    await catCollection.delete()
     
-    // 1. Busca TODOS os produtos da categoria
-    const productsQuery = db.collection("products").where("category", "==", id);
-    const productsSnapshot = await productsQuery.get();
-
-    // 2. Adiciona TODAS as deleções ao batch
-    productsSnapshot.forEach((doc) => {
-      batch.delete(doc.ref);
-    });
-    batch.delete(categoryRef);
-
-    // 3. Executa todas as operações atomicamente
-    await batch.commit();
-
-    return { success: true, deletedProducts: productsSnapshot.size };
   } catch (err) {
     console.error("Erro:", err);
-    return { 
-      success: false, 
-      error: err instanceof Error ? err.message : "Erro desconhecido" 
-    };
   }
 };
